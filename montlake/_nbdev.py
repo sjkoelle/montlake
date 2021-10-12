@@ -10,6 +10,9 @@ index = {"position_to_torsion": "atomgeom.features.ipynb",
          "load_data": "exec.get_features.ipynb",
          "get_features_parallel": "exec.get_features.ipynb",
          "parse_args": "exec.get_features.ipynb",
+         "GradientGroupLasso": "optimization.gradientgrouplasso.ipynb",
+         "get_sr_lambda_parallel": "optimization.gradientgrouplasso.ipynb",
+         "batch_stream": "optimization.gradientgrouplasso.ipynb",
          "get_rigid_ethanol_data": "simulations.rigidethanol.ipynb",
          "get_234_indices": "utils.utils.ipynb",
          "get_atoms4_full": "utils.utils.ipynb",
@@ -18,6 +21,7 @@ index = {"position_to_torsion": "atomgeom.features.ipynb",
 
 modules = ["atomgeom/features.py",
            "exec/get_features.py",
+           "optimization/gradientgrouplasso.py",
            "simulations/rigidethanol.py",
            "utils/utils.py"]
 
