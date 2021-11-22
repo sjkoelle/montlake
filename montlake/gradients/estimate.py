@@ -33,6 +33,6 @@ def get_grads_pullback(data,
         lr.fit(projected_M, projected_N)
         #weights = affinity_matrix[selectedpoints[i]].data
         #lr.fit(projected_M, projected_N, weights)
-        dF[i] = lr.coef_#np.linalg.lstsq(projected_M, deltaq0)[0]
+        dF[i] = lr.coef_.transpose()#np.linalg.lstsq(projected_M, deltaq0)[0]
 
     return(dF)
