@@ -1,0 +1,19 @@
+{
+    "run_name": "runexp_ethanol",
+    "in_data": "/Users/samsonkoelle/thesis_data/processed_data/ethanol/ethanol_atoms3.npy",
+    "embedding": "/Users/samsonkoelle/thesis_data/processed_data/ethanol/ethanol_embedding.npy",
+    "geom" : "/Users/samsonkoelle/thesis_data/processed_data/ethanol/ethanol_geom.pkl",
+	"nreps" : 25,
+	"d" : 2, 
+	"atoms2": false,
+	"atoms3": false,
+	"ii" : [0, 0, 0, 0, 1, 1, 1, 2],
+	"jj" : [1, 2, 3, 4, 5, 6, 7, 8],
+	"nsel" : 100,
+	"gl_itermax" : 500,
+	"r" : 0,
+	"max_search" : 30,
+	"reg_l2" : 0 ,
+	"tol" : 1e-14,
+	"learning_rate" : 100
+}

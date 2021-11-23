@@ -37,7 +37,7 @@ def get_selected_function_ids(replicates, d):
     return(selected_function_ids)
 
 # Cell
-def get_selected_functions_lm2():
+def get_selected_functions_lm2(replicates):
 
     nreps = len(list(replicates.keys()))
 

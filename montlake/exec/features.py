@@ -59,32 +59,3 @@ def parse_args(args):
     parser.add_argument("--config", help="Path to JSON config")
     args = parser.parse_args(args)
     return args
-
-# Cell
-
-try:
-    from nbdev.imports import IN_NOTEBOOK
-except:
-    IN_NOTEBOOK = False
-
-if __name__ == "__main__" and not IN_NOTEBOOK:
-    args = parse_args(sys.argv[1:])
-    dataset = args.dataset
-    name = args.name
-    numpoints = int(args.numpoints)
-    outdir = args.outdir
-    cores = int(args.cores)
-    data = load_data(dataset, name,outdir,numpoints)
-    natoms = data.shape[1]
-
-    if include_atoms2:
-        atoms2 = np.asarray(list(itertools.combinations(range(natoms), 2)))
-    if include_atoms3:
-        atoms3 = np.asarray(list(itertools.combinations(range(natoms), 2)))
-    if include_atoms4
-    atoms3 = np.asarray(list(itertools.combinations(range(natoms), 3)))
-    atoms4 = np.asarray(list(itertools.combinations(range(natoms), 4)))
-
-    output = get_features_parallel(data,atoms2,atoms3,atoms4,cores)
-    with open(outdir +'/'+ name + 'features', 'wb') as handle:
-        pickle.dump(output, handle, protocol=pickle.HIGHEST_PROTOCOL)

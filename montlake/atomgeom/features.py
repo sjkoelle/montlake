@@ -6,10 +6,9 @@ __all__ = ['data_stream_custom_range', 'position_to_torsion', 'position_to_dista
 # Cell
 
 import torch
-from ..geometry.geometry import RiemannianManifold, TangentBundle
+#from montlake.geometry.geometry import RiemannianManifold, TangentBundle
 import numpy as np
 from einops import rearrange
-from multiprocessing_on_dill.pool import Pool
 import itertools
 
 def data_stream_custom_range(selind):
