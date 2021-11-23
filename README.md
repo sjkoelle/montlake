@@ -1,5 +1,6 @@
 # montlake 🛶
 Welcome to Montlake: tools for geometric data analysis.
+This package was built using nbdev. 
 
 # Installation
 
@@ -12,4 +13,4 @@ pip install git+git://github.com/sjkoelle/montlake/
 
 # Usage
 
-Code from this package can be used recreate results from Manifold Coordinates with Physical Meaning (https://arxiv.org/abs/1811.11891).
+Code from the experiments folder can be used recreate results from Manifold Coordinates with Physical Meaning (https://arxiv.org/abs/1811.11891).
