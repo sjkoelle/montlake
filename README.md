@@ -1,6 +1,7 @@
 # montlake 🛶
 Welcome to Montlake: tools for geometric data analysis.
 This package was built using nbdev. 
+It contains group lasso and basis pursuit algorithms for parametric manifold learning and interfacing code for computing interpoint distances, planar angles, and torsions.
 
 # Installation
 
