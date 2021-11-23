@@ -1,6 +1,5 @@
 # montlake 🛶
-Welcome to the Montlake package.
-This package includes a variety of tools for geometric data analysis.
+Welcome to the Montlake package: tools for geometric data analysis.
 
 # Installation
 
