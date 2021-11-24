@@ -1,19 +1,22 @@
-# montlake 🛶
-Welcome to montlake: tools for geometric data analysis.
-Montlake contains group lasso and basis pursuit algorithms for parametric manifold learning and interfacing code for computing interpoint distances, planar angles, and torsions.  It uses embedding and geometry components of the megaman package.
+# Montlake 🛶
+Welcome to Montlake.
+Montlake contains tools for geometric data analysis.
+It includes vector field group lasso and basis pursuit methods for parametric manifold learning.
+It also contains differentiable shape featurizations including interpoint distances, planar angles, and torsions from data positions.
+It uses embedding and tangent estimation components of the megaman package.
 
 # Installation
 
 ```
 conda create -n 'montlake' python=3.6
-conda activate montlake
+source activate montlake
 conda install --channel=conda-forge -y pip nose coverage cython numpy scipy scikit-learn pyflann pyamg h5py plotly
 pip install git+git://github.com/sjkoelle/montlake/
 ```
 
 # Usage
 
-Code from the experiments folder can be used recreate results from Manifold Coordinates with Physical Meaning (https://arxiv.org/abs/1811.11891).
+After pulling, code from the experiments folder can be used recreate results from Manifold Coordinates with Physical Meaning (https://arxiv.org/abs/1811.11891).
 Individual analyses are parameterized in experiments/configs and can be called from the command line.
 
 ```
