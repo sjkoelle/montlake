@@ -9,7 +9,7 @@ It uses embedding and tangent estimation components of the megaman package.
 
 ```
 conda create -n 'montlake' python=3.6
-conda activate montlake
+source activate montlake
 conda install --channel=conda-forge -y pip nose coverage cython numpy scipy scikit-learn pyflann pyamg h5py plotly
 pip install git+git://github.com/sjkoelle/montlake/
 ```
