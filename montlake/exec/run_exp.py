@@ -48,6 +48,8 @@ def subset_data(hparams):
     return(positions, randomindices)
 
 # Cell
+import pdb
+
 try:
     from nbdev.imports import IN_NOTEBOOK
 except:
@@ -63,6 +65,9 @@ if __name__ == "__main__" and not IN_NOTEBOOK:
     if args.config:
         with open(args.config) as f:
             config.update(json.load(f))
+
+    #pdb.set_trace()
+    config.update(vars(args))
     hparams = HParams(**config)
 #    if hparams.data_sub == None:
     positions, randomindices = subset_data(hparams)
