@@ -17,7 +17,7 @@ Code from the experiments folder can be used recreate results from Manifold Coor
 Individual analyses are parameterized in experiments/configs and can be called from the command line.
 
 ```
-python -m montlake.exec.run_exp --config /Users/samsonkoelle/tunatostada/experiments/configs/malonaldehyde_full.json
+python -m montlake.exec.run_exp --config montlake/experiments/configs/malonaldehyde_full.json
 ```
 
 This will save a dictionary with relevant experimental results.  These results are plotted in experiments/nbs.
