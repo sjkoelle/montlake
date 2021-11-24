@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/Users/samsonkoelle/miniconda3/lib/python3.9/runpy.py", line 197, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/Users/samsonkoelle/miniconda3/lib/python3.9/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/Users/samsonkoelle/tunatostada/montlake/exec/run_exp.py", line 13, in <module>
+    from ..mflasso.main import run_exp as run_exp_mflasso
+  File "/Users/samsonkoelle/tunatostada/montlake/mflasso/main.py", line 7, in <module>
+    from ..atomgeom.features import get_features,get_D_feats_feats
+  File "/Users/samsonkoelle/tunatostada/montlake/atomgeom/features.py", line 11, in <module>
+    from einops import rearrange
+ModuleNotFoundError: No module named 'einops'

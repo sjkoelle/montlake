@@ -255,6 +255,9 @@ def get_sr_lambda_parallel(df_M, dg_M, gl_itermax,reg_l2, max_search, card, tol,
                 probe = (lowprobes.max() + highprobes.min()) / 2
             else:
                 probe = lowprobes.max() * 2
+            if i == max_search - 1:
+                print('we failed')
+                return(probe, coeffs, combined_norms)
 
 def batch_stream(replicates):
 
