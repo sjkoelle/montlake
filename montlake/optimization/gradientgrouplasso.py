@@ -4,7 +4,8 @@ __all__ = ['GradientGroupLasso', 'get_sr_lambda_parallel', 'batch_stream']
 
 # Cell
 from einops import rearrange
-import autograd.numpy as np
+#import autograd.numpy as np
+import numpy as np
 import logging
 from copy import deepcopy
 from scipy.special import expit

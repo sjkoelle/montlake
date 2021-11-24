@@ -11,6 +11,7 @@ import sys
 import scipy
 from ..vendor.tfcompat.hparam import HParams
 from ..mflasso.main import run_exp as run_exp_mflasso
+from ..tslasso.main import run_exp as run_exp_tslasso
 import os
 
 def parse_args(args):
@@ -70,4 +71,9 @@ if __name__ == "__main__" and not IN_NOTEBOOK:
 
     np.save(hparams.outdir + 'positions' + hparams.name, positions)
     np.save(hparams.outdir + 'indices'+ hparams.name, randomindices)
-    run_exp_mflasso(positions = positions, hparams = hparams)
+
+    if hparams.mflasso:
+        run_exp_mflasso(positions = positions, hparams = hparams)
+
+    if hparams.tslasso:
+        run_exp_tslasso(positions = positions, hparams = hparams)
