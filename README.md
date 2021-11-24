@@ -1,4 +1,4 @@
-# montlake 🛶
+# Montlake 🛶
 Welcome to Montlake.
 Montlake contains tools for geometric data analysis.
 It includes vector field group lasso and basis pursuit methods for parametric manifold learning.
