@@ -1,5 +1,5 @@
 # montlake 🛶
-Welcome to montlake.
+Welcome to Montlake.
 Montlake contains tools for geometric data analysis.
 It includes vector field group lasso and basis pursuit methods for parametric manifold learning.
 It also contains differentiable shape featurizations including interpoint distances, planar angles, and torsions from data positions.
