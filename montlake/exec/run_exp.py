@@ -4,9 +4,11 @@ __all__ = ['parse_args', 'subset_data']
 
 # Cell
 import numpy as np
+import random
 import argparse
 import json
 import sys
+import scipy
 from ..vendor.tfcompat.hparam import HParams
 from ..mflasso.main import run_exp as run_exp_mflasso
 import os
@@ -49,6 +51,9 @@ except:
     IN_NOTEBOOK = False
 
 if __name__ == "__main__" and not IN_NOTEBOOK:
+
+    np.random.seed(1234)
+    random.seed(1234)
     args = parse_args(sys.argv[1:])
     config = {}
     if args.config:

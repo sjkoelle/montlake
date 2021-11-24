@@ -39,10 +39,11 @@ def run_exp(positions, hparams):
     atoms2_dict = hparams.atoms2_dict
     atoms3_dict = hparams.atoms3_dict
     atoms4_dict = hparams.atoms4_dict
-    diagram = hparams.diagram,
+    diagram = hparams.diagram
+
     ii = np.asarray(hparams.ii)
     jj = np.asarray(hparams.jj)
-    outfile = hparams.outdir + 'results'
+    outfile = hparams.outdir + hparams.name + 'results'
     print(ii)
     #load geometric features
     natoms = positions.shape[1]
@@ -159,12 +160,12 @@ def run_exp(positions, hparams):
     pool.close()
     pool.restart()
 
-    #compute function values for plotting
+    #compute function values for plotting... needs 'order234' for full computation
     selected_function_values = pool.map(
                     lambda i: get_features(positions[i],
                                            atoms2 = np.asarray([]),
                                            atoms3 = np.asarray([]),
-                                           atoms4 = atoms4[selected_functions_unique]),
+                                           atoms4 = atoms4_dicts[selected_functions_unique]),
                     data_stream_custom_range(list(range(n))))
 
     selected_function_values_array = np.vstack([np.hstack(selected_function_values[i]) for i in range(n)])
@@ -173,7 +174,7 @@ def run_exp(positions, hparams):
                     lambda i: get_features(positions[i],
                                            atoms2 = np.asarray([]),
                                            atoms3 = np.asarray([]),
-                                           atoms4 = atoms4[selected_functions_unique_twostage]),
+                                           atoms4 = atoms4_dicts[selected_functions_unique_twostage]),
                     data_stream_custom_range(list(range(n))))
 
     selected_function_values_array_brute = np.vstack([np.hstack(selected_function_values_brute[i]) for i in range(n)])
