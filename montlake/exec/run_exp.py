@@ -17,6 +17,8 @@ import os
 def parse_args(args):
     parser= argparse.ArgumentParser()
     parser.add_argument("--config", help="Path to JSON config")
+    parser.add_argument("--raw_data", help="Path to JSON config")
+    parser.add_argument("--outdir", help="Path to save outputs")
     args = parser.parse_args(args)
     return args
 
@@ -56,6 +58,7 @@ if __name__ == "__main__" and not IN_NOTEBOOK:
     np.random.seed(1234)
     random.seed(1234)
     args = parse_args(sys.argv[1:])
+    print(args)
     config = {}
     if args.config:
         with open(args.config) as f:
