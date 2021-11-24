@@ -1,3 +1,6 @@
+*.out
+*.err
+
 .jekyll-cache/
 Gemfile.lock  
 *.bak
