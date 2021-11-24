@@ -1,6 +1,9 @@
 # montlake 🛶
-Welcome to montlake: tools for geometric data analysis.
-Montlake contains group lasso and basis pursuit algorithms for parametric manifold learning and interfacing code for computing interpoint distances, planar angles, and torsions.  It uses embedding and geometry components of the megaman package.
+Welcome to montlake.
+Montlake contains tools for geometric data analysis.
+It includes vector field group lasso and basis pursuit methods for parametric manifold learning.
+It also contains differentiable shape featurizations including interpoint distances, planar angles, and torsions from data positions.
+It uses embedding and tangent estimation components of the megaman package.
 
 # Installation
 
