@@ -43,7 +43,7 @@ def run_exp(positions, hparams):
 
     ii = np.asarray(hparams.ii)
     jj = np.asarray(hparams.jj)
-    outfile = hparams.outdir + hparams.name + 'results'
+    outfile = hparams.outdir + '/' + hparams.name + 'results_mflasso'
     print(ii)
     #load geometric features
     natoms = positions.shape[1]
