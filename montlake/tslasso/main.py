@@ -79,6 +79,7 @@ def run_exp(positions, hparams):
                                atoms4 = atoms4_feats),
         data_stream_custom_range(list(range(n))))
     data = np.vstack([np.hstack(results[i]) for i in range(n)])
+    data = data - np.mean(data, axis = 0)
 
     #apply SVD
     svd = TruncatedSVD(n_components=50)
@@ -152,6 +153,7 @@ def run_exp(positions, hparams):
     pool.restart()
 
     #compute function values for plotting... needs 'order234' for full computation
+    print('computing selected function values lasso')
     selected_function_values = pool.map(
                     lambda i: get_features(positions[i],
                                            atoms2 = np.asarray([]),
@@ -161,6 +163,7 @@ def run_exp(positions, hparams):
 
     selected_function_values_array = np.vstack([np.hstack(selected_function_values[i]) for i in range(n)])
 
+    print('computing selected function values brute')
     selected_function_values_brute = pool.map(
                     lambda i: get_features(positions[i],
                                            atoms2 = np.asarray([]),
@@ -171,6 +174,7 @@ def run_exp(positions, hparams):
     selected_function_values_array_brute = np.vstack([np.hstack(selected_function_values_brute[i]) for i in range(n)])
 
     #remove large gradient arrays
+    print('saving')
     replicates_small = {}
     for r in range(nreps):
         replicates_small[r] = Replicate(nsel=nsel, n=n,
@@ -179,6 +183,8 @@ def run_exp(positions, hparams):
         replicates_small[r].dphispectral_M = replicates[r].dphispectral_M
         cosine = get_cosines(np.swapaxes(replicates[r].dg_M,1,2))
         replicates_small[r].cosine_abs = np.mean(np.abs(cosine), axis = 0)
+        replicates_small[r].cs_reorder = replicates[r].cs_reorder
+        replicates_small[r].xaxis_reorder = replicates[r].xaxis_reorder
 
     #prepare to save
     results = {}
