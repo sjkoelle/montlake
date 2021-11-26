@@ -20,6 +20,9 @@ def parse_args(args):
     parser.add_argument("--raw_data", help="Path to raw data")
     parser.add_argument("--outdir", help="Path to save outputs")
     parser.add_argument("--nreps", help="Number of replicates", type = int)
+    parser.add_argument("--name", help = "Name for saving")
+    parser.add_argument("--tslasso", help = "run tslasso", type = bool)
+    parser.add_argument("--mflasso", help = "run mflasso", type = bool)
     args = parser.parse_args(args)
     return args
 
@@ -78,8 +81,8 @@ if __name__ == "__main__" and not IN_NOTEBOOK:
     if not os.path.exists(hparams.outdir):
         os.makedirs(hparams.outdir)
 
-    np.save(hparams.outdir + 'positions' + hparams.name, positions)
-    np.save(hparams.outdir + 'indices'+ hparams.name, randomindices)
+    np.save(hparams.outdir + '/positions' + hparams.name, positions)
+    np.save(hparams.outdir + '/indices'+ hparams.name, randomindices)
 
     if hparams.mflasso:
         run_exp_mflasso(positions = positions, hparams = hparams)
