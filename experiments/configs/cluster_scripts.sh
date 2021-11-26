@@ -11,9 +11,14 @@
 
 export PATH="~/anaconda3/bin:$PATH"
 source activate montlake
-python -u -m montlake.exec.run_exp --config /Users/samsonkoelle/tunatostada/experiments/configs/rigidethanol_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/rigidethanol --raw_data /homes/sjkoelle/thesis_data/raw_data/rigidethanol_nonoise.npy
-python -u -m montlake.exec.run_exp --config /Users/samsonkoelle/tunatostada/experiments/configs/toluene_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/toluene --raw_data /homes/sjkoelle/thesis_data/raw_data/toluene.mat
-python -u -m montlake.exec.run_exp --config /Users/samsonkoelle/tunatostada/experiments/configs/ethanol_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/ethanol --raw_data /homes/sjkoelle/thesis_data/raw_data/ethanol.mat 
-python -u -m montlake.exec.run_exp --config /Users/samsonkoelle/tunatostada/experiments/configs/ethanol_full.json --outdir /homes/sjkoelle/thesis_data/processed_data/ethanol --raw_data /homes/sjkoelle/thesis_data/raw_data/ethanol.mat 
-python -u -m montlake.exec.run_exp --config /Users/samsonkoelle/tunatostada/experiments/configs/malonaldeyde_full.json --outdir /homes/sjkoelle/thesis_data/processed_data/malonaldehyde --raw_data /homes/sjkoelle/thesis_data/raw_data/malonaldehyde.mat 
-python -u -m montlake.exec.run_exp --config /Users/samsonkoelle/tunatostada/experiments/configs/malonaldeyde_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/malonaldehyde --raw_data /homes/sjkoelle/thesis_data/raw_data/malonaldehyde.mat 
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/ethanol_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/ethanol --raw_data /homes/sjkoelle/thesis_data/raw_data/ethanol.mat --nreps 25
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/ethanol_full.json --outdir /homes/sjkoelle/thesis_data/processed_data/ethanol --raw_data /homes/sjkoelle/thesis_data/raw_data/ethanol.mat --nreps 25
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/malonaldeyde_full.json --outdir /homes/sjkoelle/thesis_data/processed_data/malonaldehyde --raw_data /homes/sjkoelle/thesis_data/raw_data/malonaldehyde.mat --nreps 25
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/malonaldeyde_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/malonaldehyde --raw_data /homes/sjkoelle/thesis_data/raw_data/malonaldehyde.mat --nreps 25
+
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/rigidethanol_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/rigidethanol --raw_data /homes/sjkoelle/thesis_data/raw_data/rigidethanol_nonoise.npy --nreps 25 --tslasso
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/toluene_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/toluene --raw_data /homes/sjkoelle/thesis_data/raw_data/toluene.mat --nreps 25 --tslasso
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/ethanol_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/ethanol --raw_data /homes/sjkoelle/thesis_data/raw_data/ethanol.mat --nreps 25 --tslasso
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/ethanol_full.json --outdir /homes/sjkoelle/thesis_data/processed_data/ethanol --raw_data /homes/sjkoelle/thesis_data/raw_data/ethanol.mat --nreps 25 --tslasso
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/malonaldeyde_full.json --outdir /homes/sjkoelle/thesis_data/processed_data/malonaldehyde --raw_data /homes/sjkoelle/thesis_data/raw_data/malonaldehyde.mat --nreps 25 --tslasso
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/malonaldeyde_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/malonaldehyde --raw_data /homes/sjkoelle/thesis_data/raw_data/malonaldehyde.mat --nreps 25 --tslasso
