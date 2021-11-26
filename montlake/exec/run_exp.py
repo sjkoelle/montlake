@@ -21,8 +21,8 @@ def parse_args(args):
     parser.add_argument("--outdir", help="Path to save outputs")
     parser.add_argument("--nreps", help="Number of replicates", type = int)
     parser.add_argument("--name", help = "Name for saving")
-    parser.add_argument("--tslasso", help = "run tslasso", type = bool)
-    parser.add_argument("--mflasso", help = "run mflasso", type = bool)
+    parser.add_argument("--tslasso", help = "run tslasso",  action='store_true')
+    parser.add_argument("--mflasso", help = "run mflasso",  action='store_true')
     args = parser.parse_args(args)
     return args
 
