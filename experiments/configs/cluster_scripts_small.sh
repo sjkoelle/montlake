@@ -9,6 +9,7 @@
 #SBATCH --mail-type=ALL       # Type of email notification- BEGIN,END,FAIL,ALL
 #SBATCH --mail-user=sjkoelle@gmail.com # Email to which notifications will be sent
 
+cd /homes/sjkoelle/montlake
 export PATH="~/anaconda3/bin:$PATH"
 source activate montlake
-python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/rigidethanol_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/rigidethanol --raw_data /homes/sjkoelle/thesis_data/raw_data/rigidethanol_nonoise.npy
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/rigidethanol_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data/rigidethanol1 --nreps 1 --raw_data /homes/sjkoelle/thesis_data/raw_data/rigidethanol_nonoise.npy
