@@ -19,7 +19,7 @@ def parse_args(args):
     parser.add_argument("--config", help="Path to JSON config (can override with cmd line args)")
     parser.add_argument("--raw_data", help="Path to raw data")
     parser.add_argument("--outdir", help="Path to save outputs")
-    parser.add_argument("--nreps", help="Number of replicates")
+    parser.add_argument("--nreps", help="Number of replicates", type = int)
     args = parser.parse_args(args)
     return args
 
