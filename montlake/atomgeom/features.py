@@ -151,7 +151,7 @@ def get_features(positions,atoms2 = np.asarray([]), atoms3 = np.asarray([]), ato
         for e in range(1):
             pos2 = positions[atom2]
             #print(pos2)
-            distances[d,1] = position_to_distances(pos2, grad = False)
+            distances[d] = position_to_distances(pos2, grad = False)
 
     for p in range(natoms3):
 
