@@ -12,7 +12,7 @@ from ..geometry.geometry import get_geom, get_wlpca_tangent_sel, get_rm_tangent_
 from ..statistics.normalization import normalize_L212
 from ..optimization.gradientgrouplasso import get_sr_lambda_parallel
 from ..optimization.utils import get_selected_function_ids,get_selected_functions_lm2
-from ..utils.replicates import Replicate, get_supports_brute,get_supports_lasso
+from ..utils.replicates import Replicate, get_supports_brute_tslasso,get_supports_lasso
 
 from megaman.embedding import SpectralEmbedding
 
