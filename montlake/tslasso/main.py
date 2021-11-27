@@ -145,7 +145,7 @@ def run_exp(positions, hparams):
 
     #get two stage support
     selected_functions_lm2 = get_selected_functions_lm2(replicates)
-    supports_brute = get_supports_brute(replicates,nreps,p,d,selected_functions_lm2)
+    supports_brute = get_supports_brute_tslasso(replicates,nreps,p,d,selected_functions_lm2)
     selected_functions_unique_twostage  = np.asarray(np.where(supports_brute > 0.)[0], dtype = int)
 
     pool.close()
