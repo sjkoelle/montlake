@@ -179,7 +179,6 @@ def run_exp(positions, hparams):
         replicates_small[r] = Replicate(nsel=nsel, n=n,
                                         selected_points=replicates[r].selected_points)
         replicates_small[r].dg_M = replicates[r].dg_M
-        replicates_small[r].dphispectral_M = replicates[r].dphispectral_M
         cosine = get_cosines(np.swapaxes(replicates[r].dg_M,1,2))
         replicates_small[r].cosine_abs = np.mean(np.abs(cosine), axis = 0)
         replicates_small[r].cs_reorder = replicates[r].cs_reorder
