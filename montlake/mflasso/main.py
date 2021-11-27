@@ -182,8 +182,12 @@ def run_exp(positions, hparams):
     selected_function_values_array_brute = np.vstack([np.hstack(selected_function_values_brute[i]) for i in range(n)])
 
     #remove large gradient arrays
+    print('getting cosines')
+    cosine = get_cosines(np.swapaxes(replicates[0].dg_M,1,2))
+
     print('saving')
     replicates_small = {}
+    replicates_small[0].cosine_abs = np.mean(np.abs(cosine), axis = 0)
     for r in range(nreps):
         replicates_small[r] = Replicate(nsel=nsel, n=n,
                                         selected_points=replicates[r].selected_points)
