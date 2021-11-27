@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --cpus-per-task=8
-#SBATCH --partition=short
+#SBATCH --partition=largemem
 #SBATCH --mem=10000
 #SBATCH --job-name=eth_full_ts
 #SBATCH --error=eth_full_ts.err

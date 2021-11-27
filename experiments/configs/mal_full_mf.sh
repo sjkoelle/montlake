@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --cpus-per-task=8
-#SBATCH --partition=short
+#SBATCH --partition=medium
 #SBATCH --mem=10000
 #SBATCH --job-name=mal_full_mf
 #SBATCH --error=mal_full_mf.err
