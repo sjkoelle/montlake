@@ -109,7 +109,6 @@ def run_exp(positions, hparams):
     p = len(atoms2_dicts) + len(atoms3_dicts) + len(atoms4_dicts)
     #get gradients
     replicates = {}
-    embedding = embed_spectral
     nreps = hparams.nreps
     nsel = hparams.nsel
     for r in range(nreps):
@@ -189,7 +188,6 @@ def run_exp(positions, hparams):
     #prepare to save
     results = {}
     results['replicates_small'] = replicates_small
-    results['embed'] = embedding
     results['data'] = data_svd
     results['supports_brute'] = supports_brute
     results['supports_lasso'] = supports_lasso
