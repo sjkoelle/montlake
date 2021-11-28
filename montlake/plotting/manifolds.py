@@ -54,7 +54,7 @@ def plot_manifold_3d(data, s, alpha, c, title):
     ax = fig.add_subplot(1,1,1, projection='3d')
 
     #ax.scatter(x, y, z, c = g1, s=s, alpha=alpha, marker='.',vmin=0,vmax=np.pi)
-    ax.scatter(x, y, z, s=s, alpha=alpha, marker='.',vmin=0,vmax=np.pi)
+    ax.scatter(x, y, z, s=s,c = c, alpha=alpha, marker='.',vmin=0,vmax=np.pi)
     ax.set_xlabel(r'$\phi_1$', fontsize = 60)
     ax.set_ylabel(r'$\phi_2$', fontsize = 60)
     ax.set_zlabel(r'$\phi_3$', fontsize = 60)
