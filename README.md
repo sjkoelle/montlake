@@ -29,3 +29,4 @@ This will save a dictionary with relevant experimental results.  These results a
 
 Please feel free to contribute, branch, fork, or edit.
 This package was built using nbdev, and so source code is kept in the nbs folder and then compiled by running nbdev_build_lib.
+Please cite if you use!
