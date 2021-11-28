@@ -20,7 +20,7 @@ After pulling, code from the experiments folder can be used recreate results fro
 Individual analyses are parameterized in experiments/configs and can be called from the command line.
 
 ```
-python -m montlake.exec.run_exp --config montlake/experiments/configs/malonaldehyde_full.json
+python -u -m montlake.exec.run_exp --config montlake/experiments/configs/rigidethanol_diagram.json --outdir data/rigidethanol --raw_data data/rigidethanol_nonoise.npy --nreps 1 --mflasso --name re_nonoise_diagram_mf
 ```
 
 This will save a dictionary with relevant experimental results.  These results are plotted in experiments/nbs.
@@ -29,3 +29,4 @@ This will save a dictionary with relevant experimental results.  These results a
 
 Please feel free to contribute, branch, fork, or edit.
 This package was built using nbdev, and so source code is kept in the nbs folder and then compiled by running nbdev_build_lib.
+Please cite if you use!
