@@ -152,7 +152,7 @@ def run_exp(positions, hparams):
     pool.restart()
 
     #compute function values for plotting... needs 'order234' for full computation
-    print('computing selected function values lasso')
+    print('computing selected function values lasso, ' + str(selected_functions_unique))
     selected_function_values = pool.map(
                     lambda i: get_features(positions[i],
                                            atoms2 = np.asarray([]),
@@ -162,7 +162,7 @@ def run_exp(positions, hparams):
 
     selected_function_values_array = np.vstack([np.hstack(selected_function_values[i]) for i in range(n)])
 
-    print('computing selected function values brute')
+    print('computing selected function values two stage, ' + str(selected_functions_unique_twostage))
     selected_function_values_brute = pool.map(
                     lambda i: get_features(positions[i],
                                            atoms2 = np.asarray([]),

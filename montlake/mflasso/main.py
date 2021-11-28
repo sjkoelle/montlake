@@ -44,8 +44,7 @@ def run_exp(positions, hparams):
     ii = np.asarray(hparams.ii)
     jj = np.asarray(hparams.jj)
     outfile = hparams.outdir + '/' + hparams.name + 'results_mflasso'
-    print(ii)
-    #load geometric features
+    print('loading geometric features')
     natoms = positions.shape[1]
     n = positions.shape[0]
     atoms2 = np.asarray(list(itertools.combinations(range(natoms), 2)))
@@ -70,11 +69,11 @@ def run_exp(positions, hparams):
     else:
         atoms4_feats = np.asarray([])
 
-    #compute rotation/translation invariant featureization
+    print('computing featurization')
     cores = pathos.multiprocessing.cpu_count() - 1
     pool = Pool(cores)
-    print('feature dimensions',atoms2_feats.shape, atoms3_feats.shape,atoms4_feats.shape)
-    #import pdb;pdb.set_trace
+    print('feature dimensions 234',atoms2_feats.shape, atoms3_feats.shape,atoms4_feats.shape)
+
     results = pool.map(lambda i: get_features(positions[i],
                                atoms2 = atoms2_feats,
                                atoms3 = atoms3_feats,
@@ -82,20 +81,19 @@ def run_exp(positions, hparams):
         data_stream_custom_range(list(range(n))))
     data = np.vstack([np.hstack(results[i]) for i in range(n)])
     data = data - np.mean(data, axis = 0)
-    #apply SVD
     svd = TruncatedSVD(n_components=50)
     data_svd = svd.fit_transform(data)
 
-    #compute geometry
+    print('computing geometry')
     radius = hparams.radius
     n_neighbors = hparams.n_neighbors
     geom = get_geom(data_svd, radius, n_neighbors)
 
-    #compute embedding
+    print('computing embedding')
     spectral_embedding = SpectralEmbedding(n_components=n_components,eigen_solver='arpack',geom=geom)
     embed_spectral = spectral_embedding.fit_transform(data_svd)
 
-    #obtain gradients
+    print('getting gradients')
     if atoms2_dict:
         atoms2_dicts = atoms2full
     else:
@@ -110,15 +108,12 @@ def run_exp(positions, hparams):
         atoms4_dicts= get_atoms_4(natoms, ii, jj)[0]
     else:
         atoms4_dicts = np.asarray([])
-
     p = len(atoms2_dicts) + len(atoms3_dicts) + len(atoms4_dicts)
-    #run
     replicates = {}
     embedding = embed_spectral
     nreps = hparams.nreps
     nsel = hparams.nsel
     for r in range(nreps):
-        #print(i)
         replicates[r] = Replicate(nsel = nsel, n = 10000)
         replicates[r].tangent_bases_M = get_wlpca_tangent_sel(data_svd, geom, replicates[r].selected_points, d)
         replicates[r].tangent_bases_phi = get_rm_tangent_sel(embedding, geom, replicates[r].selected_points, d)
@@ -136,7 +131,7 @@ def run_exp(positions, hparams):
         replicates[r].dphispectral_M_normalized = normalize_L212(replicates[r].dphispectral_M)
 
 
-    #run manifold lasso
+    print('running manifold lasso')
     gl_itermax= hparams.gl_itermax
     reg_l2 = hparams.reg_l2
     max_search = hparams.max_search
@@ -148,20 +143,20 @@ def run_exp(positions, hparams):
         replicates[r].get_ordered_axes()
         replicates[r].sel_l = replicates[r].get_selection_lambda()
 
-    #get manifold lasso support
+    print('getting manifold lasso support')
     selected_functions_unique = np.asarray(np.unique(get_selected_function_ids(replicates,d)), dtype = int)
-    supports_lasso = get_supports_lasso(replicates,p,d)
+    support_tensor_lasso, supports_lasso = get_supports_lasso(replicates,p,d)
 
-    #get two stage support
+    print('getting two-stage support')
     selected_functions_lm2 = get_selected_functions_lm2(replicates)
-    supports_brute = get_supports_brute(replicates,nreps,p,d,selected_functions_lm2)
-    selected_functions_unique_twostage  = np.asarray(np.where(supports_brute > 0.)[0], dtype = int)
+    support_tensor_ts, supports_ts = get_supports_brute(replicates,nreps,p,d,selected_functions_lm2)
+    selected_functions_unique_twostage  = np.unique(np.asarray(np.where(support_tensor_ts > 0.)[0], dtype = int))
 
     pool.close()
     pool.restart()
 
-    #compute function values for plotting... needs 'order234' for full computation
-    print('computing selected function values lasso')
+    #needs 'order234' for full computation
+    print('computing selected function values lasso, ' + str(selected_functions_unique))
     selected_function_values = pool.map(
                     lambda i: get_features(positions[i],
                                            atoms2 = np.asarray([]),
@@ -171,7 +166,7 @@ def run_exp(positions, hparams):
 
     selected_function_values_array = np.vstack([np.hstack(selected_function_values[i]) for i in range(n)])
 
-    print('computing selected function values brute')
+    print('computing selected function values two stage, ' + str(selected_functions_unique_twostage))
     selected_function_values_brute = pool.map(
                     lambda i: get_features(positions[i],
                                            atoms2 = np.asarray([]),
@@ -181,18 +176,13 @@ def run_exp(positions, hparams):
 
     selected_function_values_array_brute = np.vstack([np.hstack(selected_function_values_brute[i]) for i in range(n)])
 
-    #remove large gradient arrays
-
-
-    print('prep save')
+    print('remove large gradient arrays for memory efficiency')
     replicates_small = {}
     for r in range(nreps):
         replicates_small[r] = Replicate(nsel=nsel, n=n,
                                         selected_points=replicates[r].selected_points)
         replicates_small[r].dg_M = replicates[r].dg_M
         replicates_small[r].dphispectral_M = replicates[r].dphispectral_M
-
-        replicates_small[r].cosine_abs = np.mean(np.abs(cosine), axis = 0)
         replicates_small[r].cs_reorder = replicates[r].cs_reorder
         replicates_small[r].xaxis_reorder = replicates[r].xaxis_reorder
 
@@ -200,19 +190,21 @@ def run_exp(positions, hparams):
     cosine = get_cosines(np.swapaxes(replicates[0].dg_M,1,2))
     replicates_small[0].cosine_abs = np.mean(np.abs(cosine), axis = 0)
 
-    #prepare to save
+    print('prepare to save')
     results = {}
     results['replicates_small'] = replicates_small
     results['embed'] = embedding
-    results['data'] = data_svd
-    results['supports_brute'] = supports_brute
-    results['supports_lasso'] = supports_lasso
-    results['selected_function_values'] = selected_function_values
-    results['selected_function_values_brute'] = selected_function_values_brute
-    results['selected_functions_unique'] = selected_functions_unique
-    results['selected_functions_unique_twostage'] = selected_functions_unique_twostage
     results['geom'] = geom
+    results['data'] = data_svd
+    results['supports_ts'] = support_tensor_ts, supports_ts
+    results['supports_lasso'] = support_tensor_lasso, supports_lasso
+    results['supports_ts_values'] = selected_function_values
+    results['supports_lasso_values'] = selected_function_values_brute
+    results['selected_ts'] = selected_functions_unique
+    results['selected_lasso'] = selected_functions_unique_twostage
 
-    #save
+    print('saving')
     with open(outfile,'wb') as output:
         pickle.dump(results, output, pickle.HIGHEST_PROTOCOL)
+
+    print('done')
