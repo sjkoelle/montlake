@@ -15,7 +15,7 @@
     "diagram" : true,
     "ii": [0, 0, 0, 1, 1, 1, 2, 2],
     "jj": [4, 5, 1, 6, 7, 2, 3, 8],
-	"radius" : 0.177,
+	"radius" : 1,
 	"n_neighbors" : 1000,
 	"n_components" : 3,
 	"nreps" : 1,

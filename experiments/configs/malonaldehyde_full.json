@@ -15,7 +15,7 @@
     "atoms3_dict" : false,
     "atoms4_dict" : true, 
     "diagram" : false,
-	"radius" : 0.177,
+	"radius" : 1,
 	"n_neighbors" : 1000,
 	"n_components" : 3,
 	"nreps" : 1,
