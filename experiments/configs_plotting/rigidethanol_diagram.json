@@ -1,0 +1,18 @@
+{
+    "result_file": "/Users/samsonkoelle/thesis_data/processed_data_2/rigidethanol/re_nonoise_diagram_mfresults_mflasso",
+    "outdir": "/Users/samsonkoelle/thesis_data/plots/rigidethanol",
+    "position_file": "/Users/samsonkoelle/thesis_data/raw_data/rigidethanol/rigidethanol_nonoise.npy",
+    "d": 2,
+    "name": "Rigid Ethanol",
+    "ncord": 6,
+    "embedding" : true,
+    "ground_truth": {"atoms2": null,
+                    "atoms3": null, 
+                    "atoms4" : [[6,1,0,2],[1,0,2,8]]},
+    "ground_truth_colors": [[0,0,1,1], [1,0.64,0,1]],
+    "colors_names_all": [[0,0,1,1], [1,0.64,0,1]],
+    "color_counts_all": [9,3],
+    "name_counts_all": [9,3],
+    "cosine_color": true,
+    "cosine_cluster": false,
+}
