@@ -95,7 +95,7 @@ def get_supports_brute_tslasso(replicates,nreps,p,d,selected_functions_lm2):
         toadd = list(permutations(supports[r],d))
         for s in range(len(toadd)):
             support_tensor[np.asarray(toadd[s], dtype = int)] += 1
-    return(supports)
+    return(support_tensor,supports)
 
 
 
