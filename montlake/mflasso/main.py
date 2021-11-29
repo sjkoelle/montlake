@@ -187,7 +187,7 @@ def run_exp(positions, hparams):
         replicates_small[r].xaxis_reorder = replicates[r].xaxis_reorder
 
     print('getting cosines')
-    cosine = get_cosines(np.swapaxes(replicates[0].dg_M,1,2))
+    cosine = get_cosines(replicates[0].dg_M)
     replicates_small[0].cosine_abs = np.mean(np.abs(cosine), axis = 0)
 
     print('prepare to save')

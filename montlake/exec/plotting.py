@@ -116,5 +116,6 @@ if __name__ == "__main__" and not IN_NOTEBOOK:
                    gt_reg_color = hparams.gt_reg_color,
                    sel_reg_color = hparams.sel_reg_color,
                    plot_watch_full = hparams.plot_watch_full,
-                   plot_watch_results = hparams.plot_watch_results
+                   plot_watch_results = hparams.plot_watch_results,
+                    cosine_color = hparams.cosine_color
                    )
