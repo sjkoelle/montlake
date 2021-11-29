@@ -46,10 +46,6 @@ def parse_args(args):
     parser.add_argument("--config", help="Path to JSON config (can override with cmd line args)")
     parser.add_argument("--raw_data", help="Path to raw data")
     parser.add_argument("--outdir", help="Path to save outputs")
-    parser.add_argument("--nreps", help="Number of replicates", type = int)
-    parser.add_argument("--name", help = "Name for saving")
-    parser.add_argument("--tslasso", help = "run tslasso",  action='store_true')
-    parser.add_argument("--mflasso", help = "run mflasso",  action='store_true')
     args = parser.parse_args(args)
     return args
 
@@ -103,22 +99,21 @@ if __name__ == "__main__" and not IN_NOTEBOOK:
     if not os.path.exists(hparams.outdir):
         os.makedirs(hparams.outdir)
 
-    with open(hparams.results,'rb') as inp:
-        results = pickle.load(inp, pickle.HIGHEST_PROTOCOL)
+#     with open(hparams.results,'rb') as inp:
+#         results = pickle.load(inp, pickle.HIGHEST_PROTOCOL)
 
-    colors = np.asarray([])
-    for c in range(len(hparams.colors)):
-        colors.append(np.repeat(hparams.colors[c], hparams.color_count[c]))
+#     colors = np.asarray([])
+#     for c in range(len(hparams.colors)):
+#         colors.append(np.repeat(hparams.colors[c], hparams.color_count[c]))
 
-    positions = np.load(hparams.inpos)
+    positions = np.load(hparams.position_file)
 
-    plot_experiment(results,
+    plot_experiment(result_file = hparams.result_file,
                     positions,
                     d = hparams.d,
                     name = hparams.name,
-                    ncord = hparams.n_coordinates,
+                    ncord = hparams.ncord,
                     embedding = hparams.embedding,
-                    ground_truth = hparams.ground_truth,
-                    colors = colors,
+                    ground_truth = np.asarray(hparams.ground_truth, dtype = int),
                     ground_truth_colors = hparams.ground_truth_colors,
-                   outdir = outdir)
+                    outdir = outdir)

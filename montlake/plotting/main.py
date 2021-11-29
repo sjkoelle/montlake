@@ -6,11 +6,24 @@ __all__ = ['plot_experiment']
 import matplotlib.pyplot as plt
 
 # Cell
-def plot_experiment(results,  positions, d,name, ncord = 6, embedding= True, ground_truth = None, colors = None, ground_truth_colors = None):
+def plot_experiment(result_file,
+                    positions,
+                    d,
+                    name,
+                    outdir,
+                    ncord = 6,
+                    embedding= True,
+                    ground_truth = None,
+                    colors_id_all = None,
+                    color_counts_all = None,
+                    name_counts_all = None,
+                    ground_truth_colors = None,
+                    names_groundtruth = None,
+                    cosine_cluster = False,
+                   cosine_color = False):
 
     print('loading data')
-    infile = '/Users/samsonkoelle/thesis_data/processed_data_2/rigidethanol/re_nonoise_diagram_mfresults_mflasso'
-    with open(infile,'rb') as inp:
+    with open(result_file,'rb') as inp:
         results = pickle.load(inp, pickle.HIGHEST_PROTOCOL)
 
     print('compute ground truth values for comparison')
@@ -22,19 +35,31 @@ def plot_experiment(results,  positions, d,name, ncord = 6, embedding= True, gro
                                    atoms4 = ground_truth['atoms4']),
             data_stream_custom_range(list(range(n))))
 
+    print('getting ground truth names')
+    if names_groundtruth is None:
+        natoms = positions.shape[1]
+        superset = get_all_atoms4(natoms)
+        j1 = get_index_matching(ground_truth[0], superset)
+        j2 = get_index_matching(ground_truth[1], superset)
+
+    print('getting all colors')
+    colors_all = np.asarray([])
+    for c in range(len(color_counts_all)):
+        colors_all = np.append(colors_all, np.repeat(colors_id_all[c], color_counts_all[c]))
+
     print('getting colors and names of selected functions')
     selected_lasso = results['selected_lasso']
     colors = get_cmap(selected_lasso)
     names = get_names(selected_lasso)
     selected_ts = results['selected_ts']
-    colors_brute = get_cmap(selected_ts)
-    names_brute = get_names(selected_ts)
+    colors_ts = get_cmap(selected_ts)
+    names_ts = get_names(selected_ts)
 
     print('plotting top coordinates in feature space')
     data = results['data']
     title = name + ' top PCA'
     plot_manifold_featurespace(data,title,ncord)
-    #plt.savefig('/Users/samsonkoelle/Downloads/manigrad-100818/mani-samk-gradients/Figures/figure_for_jmlr/tol30_replicate')
+    plt.savefig(outdir + '/features')
 
     print('plotting sample regularization path')
     fig, axes_all = plt.subplots(figsize=(15, 10))
@@ -43,7 +68,7 @@ def plot_experiment(results,  positions, d,name, ncord = 6, embedding= True, gro
     axes_all.set_ylabel(r'$||\beta_j||$', fontsize = 40)
     axes_all.set_xticklabels([])
     plt.tight_layout()
-    #plt.savefig('/Users/samsonkoelle/Downloads/manigrad-100818/mani-samk-gradients/Figures/figure_for_jmlr/tol30_replicate')
+    plt.savefig(outdir + '/reg_path')
 
     if embedding:
         print('plotting selected function values')
@@ -54,15 +79,15 @@ def plot_experiment(results,  positions, d,name, ncord = 6, embedding= True, gro
                 plot_manifold_3d(embed, s, alpha, c, title, title_color)
             if n_components == 2:
                 plot_manifold_2d(embed, s, alpha, c, title, title_color)
-            #plt.savefig('/Users/samsonkoelle/Downloads/manigrad-100818/mani-samk-gradients/Figures/figure_for_jmlr/tol30_replicate')
+            plt.savefig(outdir + '/selected_function_lasso' + s)
         for s in range(len(selected_functions_brute)):
-            c = results['selected_function_brute values'][:,s]
+            c = results['selected_function_brute_values'][:,s]
             embed = results['embed']
             if n_components == 3:
                 plot_manifold_3d(embed, s, alpha, c, title, title_color)
             if n_components == 2:
                 plot_manifold_2d(embed, s, alpha, c, title, title_color)
-            #plt.savefig('/Users/samsonkoelle/Downloads/manigrad-100818/mani-samk-gradients/Figures/figure_for_jmlr/tol30_replicate')
+            plt.savefig(outdir + '/selected_function_ts' + s)
         print('plotting ground truth function values')
 
     print("plotting watches")
@@ -70,48 +95,65 @@ def plot_experiment(results,  positions, d,name, ncord = 6, embedding= True, gro
     plot_watch_custom(results['supports_lasso'], p, axes_all,colors, nreps)
     axes_all.set_title('Estimated Support', fontsize = 40)
     plt.tight_layout()
+    plt.savefig(outdir + '/watch')
 
     if d > 1:
-        print("plotting full cosine matrix")
-        cosines_full= results['replicates_small'].cosines
-        plot_cosines(cosines_full, ax, colors)
-        #plt.savefig('/Users/samsonkoelle/Downloads/manigrad-100818/mani-samk-gradients/Figures/figure_for_jmlr/tol30_replicate')
+        if cosine_color:
+            print("plotting full cosine matrix colored")
+            fig, axes_all = plt.subplots(figsize=(15, 10))
+            cosines_full= results['replicates_small'].cosines
+            plot_cosines(cosines_full, axes_all, colors_all)
+            plt.savefig(outdir + '/cosine_colored')
 
-        print("plotting cosines of ground truth and selected")
+
+        if cosine_cluster:
+            print("plotting full cosine matrix clustered")
+            plot_cosines_cluster(cosines_full)
+            plt.savefig(outdir + '/cosines_clustered')
+
+        print("plotting cosines of ground truth and selected lasso")
         selected_lasso_gt = np.unique(np.concatenate(selected_lasso,ground_truth['atoms4'])) #add 234
-        cuz_l = np.abs(get_cosines(np.swapaxes(results['replicates_small'][0].dg_M[:,:,subset_l0_plusgt], 1,2)))
+        detected_values = get_detected_values2d(selected_lasso_gt, results['supports_lasso'],nreps)
+        colors_lasso_plusgt = np.concatenate(ground_truth_colors, colors)
+        names_lasso_plusgt = np.concatenate(names_groundtruth, names_lasso)
+        cuz_l = np.abs(get_cosines(np.swapaxes(results['replicates_small'][0].dg_M[:,:,selected_lasso_gt], 1,2)))
         cuz_l0 = np.mean(cuz_l, axis = 0)
-        sns.heatmap(cosines_selected, yticklabels = names_l0, xticklabels = names, ax = axarr, vmin = 0., vmax = 1.)
+        sns.heatmap(cuz_l0, yticklabels = names_l0, xticklabels = names, ax = axarr, vmin = 0., vmax = 1.)
         axarr.set_xticklabels(axarr.get_xmajorticklabels(), fontsize = 30)
         axarr.set_yticklabels(axarr.get_ymajorticklabels(), fontsize = 30)
         for d in range(detected_values.shape[1]):
             axarr.add_patch(Rectangle((detected_values[1,d], detected_values[0,d]), 1, 1,facecolor = [0,1,0,0.], hatch = '/',fill= True, edgecolor='blue', lw=1))
-        for xtick, color in zip(axarr.get_xticklabels(), colors_l0_plusgt):
+        for xtick, color in zip(axarr.get_xticklabels(), colors_lasso_plusgt):
             xtick.set_color(color)
-        for ytick, color in zip(axarr.get_yticklabels(), colors_l0_plusgt):
+        for ytick, color in zip(axarr.get_yticklabels(), colors_lasso_plusgt):
             ytick.set_color(color)
         axarr.set_title(r"$\frac{1}{n'} \sum_{i = 1}^{n'} \frac{|\langle grad_{\mathcal M} g_j (\xi_i) ,grad_{\mathcal M} g_{j'} (\xi_i)\rangle|}{\|grad_{\mathcal M} g_j (\xi_i) \| \| grad_{\mathcal M} g_{j'}(\xi_i) \|} $" ,
                         fontsize = 30)
         plt.tight_layout()
         plt.yticks(rotation= 0)
+        plt.savefig(outdir + '/cosines_sellasso_gt')
 
-        print("plotting cosines of ground truth and selected")
-        selected_lasso_gt = np.unique(np.concatenate(selected_ts,ground_truth['atoms4'])) #add 234
-        cuz_l = np.abs(get_cosines(np.swapaxes(results['replicates_small'][0].dg_M[:,:,subset_l0_plusgt], 1,2)))
+        print("plotting cosines of ground truth and selected ts")
+        selected_ts_gt = np.unique(np.concatenate(selected_ts,ground_truth['atoms4'])) #add 234
+        detected_values = get_detected_values2d(selected_ts_gt, results['supports_ts'],nreps)
+        colors_ts_plusgt = np.concatenate(ground_truth_colors, colors_ts)
+        names_ts_plusgt = np.concatenate(names_groundtruth, names_ts)
+        cuz_l = np.abs(get_cosines(np.swapaxes(results['replicates_small'][0].dg_M[:,:,selected_ts_gt], 1,2)))
         cuz_l0 = np.mean(cuz_l, axis = 0)
-        sns.heatmap(cosines_selected, yticklabels = names_l0, xticklabels = names, ax = axarr, vmin = 0., vmax = 1.)
+        sns.heatmap(cuz_l0, yticklabels = names_ts_plusgt, xticklabels = names_ts_plusgt, ax = axarr, vmin = 0., vmax = 1.)
         axarr.set_xticklabels(axarr.get_xmajorticklabels(), fontsize = 30)
         axarr.set_yticklabels(axarr.get_ymajorticklabels(), fontsize = 30)
         for d in range(detected_values.shape[1]):
             axarr.add_patch(Rectangle((detected_values[1,d], detected_values[0,d]), 1, 1,facecolor = [0,1,0,0.], hatch = '/',fill= True, edgecolor='blue', lw=1))
-        for xtick, color in zip(axarr.get_xticklabels(), colors_l0_plusgt):
+        for xtick, color in zip(axarr.get_xticklabels(), colors_ts_plusgt):
             xtick.set_color(color)
-        for ytick, color in zip(axarr.get_yticklabels(), colors_l0_plusgt):
+        for ytick, color in zip(axarr.get_yticklabels(), colors_ts_plusgt):
             ytick.set_color(color)
         axarr.set_title(r"$\frac{1}{n'} \sum_{i = 1}^{n'} \frac{|\langle grad_{\mathcal M} g_j (\xi_i) ,grad_{\mathcal M} g_{j'} (\xi_i)\rangle|}{\|grad_{\mathcal M} g_j (\xi_i) \| \| grad_{\mathcal M} g_{j'}(\xi_i) \|} $" ,
                         fontsize = 30)
         plt.tight_layout()
         plt.yticks(rotation= 0)
+        plt.savefig(outdir + '/cosines_selts_gt')
 
     if d == 2:
         print("getting correlations with ground truth")
@@ -129,3 +171,4 @@ def plot_experiment(results,  positions, d,name, ncord = 6, embedding= True, gro
             coses[r,0,1] = np.sum(np.abs(np.asarray([cosine_similarity(replicates[r].dg_M[i,:,j1], replicates[r].dg_M[i,:,j4]) for i in range(nsel)]))) / nsel
             coses[r,1,0] = np.sum(np.abs(np.asarray([cosine_similarity(replicates[r].dg_M[i,:,j2], replicates[r].dg_M[i,:,j3]) for i in range(nsel)]))) / nsel
             coses[r,1,1] = np.sum(np.abs(np.asarray([cosine_similarity(replicates[r].dg_M[i,:,j2], replicates[r].dg_M[i,:,j4]) for i in range(nsel)]))) / nsel
+            #pd.save('save')
