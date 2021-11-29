@@ -18,11 +18,9 @@ def plot_manifold_2d(data, s, alpha, c, title):
     axs.set_axis_off()
     s = 1
     alpha = .5
-    selected_points = list(range(50000))
+    selected_points = list(range(data.shape[0]))
     x = data[:, 0][selected_points]
     y = data[:, 1][selected_points]
-    #z = data[:, 2][selected_points]
-
     ax = fig.add_subplot(1,1,1)
 
     ax.scatter(x, y,  s=s, alpha=alpha, marker='.',vmin=0,vmax=np.pi, c=c )
@@ -43,24 +41,21 @@ def plot_manifold_2d(data, s, alpha, c, title):
 
 # Cell
 def plot_manifold_3d(data, s, alpha, c, title):
+
     fig, axs = plt.subplots(1,1, figsize = (15,10))
     axs.set_axis_off()
 
-    selected_points = list(range(10000))
+    selected_points = list(range(data.shape[0]))
     x = data[:, 0][selected_points]
     y = data[:, 1][selected_points]
     z = data[:, 2][selected_points]
 
     ax = fig.add_subplot(1,1,1, projection='3d')
-
-    #ax.scatter(x, y, z, c = g1, s=s, alpha=alpha, marker='.',vmin=0,vmax=np.pi)
     ax.scatter(x, y, z, s=s,c = c, alpha=alpha, marker='.',vmin=0,vmax=np.pi)
     ax.set_xlabel(r'$\phi_1$', fontsize = 60)
     ax.set_ylabel(r'$\phi_2$', fontsize = 60)
     ax.set_zlabel(r'$\phi_3$', fontsize = 60)
-
     ax.set_title(title, fontsize = 80, color = 'orange')
-    #ax.set_title(r'$g_{1}$', fontsize = 80, color = 'orange')
 
     xmin = np.float(np.format_float_positional(data[:, 0][selected_points].min(), precision=2, fractional=False))
     xmax = np.float(np.format_float_positional(data[:, 0][selected_points].max(), precision=2, fractional=False))
@@ -68,6 +63,7 @@ def plot_manifold_3d(data, s, alpha, c, title):
     ymax = np.float(np.format_float_positional(data[:, 1][selected_points].max(), precision=2, fractional=False))
     zmin = np.float(np.format_float_positional(data[:, 2][selected_points].min(), precision=2, fractional=False))
     zmax = np.float(np.format_float_positional(data[:, 2][selected_points].max(), precision=2, fractional=False))
+
     ax.set_xticks([xmin, xmax])
     ax.set_yticks([ymin, ymax])
     ax.set_zticks([zmin, zmax])
@@ -79,7 +75,7 @@ def plot_manifold_3d(data, s, alpha, c, title):
     ax.xaxis._axinfo["grid"]['color'] =  (1,1,1,0)
     ax.yaxis._axinfo["grid"]['color'] =  (1,1,1,0)
     ax.zaxis._axinfo["grid"]['color'] =  (1,1,1,0)
-    #plt.savefig('/Users/samsonkoelle/Downloads/manigrad-100818/mani-samk-gradients/Figures/figure_for_jmlr/re_groundtruth_g1_noise')
+
 
 # Cell
 import math

@@ -198,10 +198,14 @@ def run_exp(positions, hparams):
     results['data'] = data_svd
     results['supports_ts'] = support_tensor_ts, supports_ts
     results['supports_lasso'] = support_tensor_lasso, supports_lasso
-    results['supports_ts_values'] = selected_function_values
-    results['supports_lasso_values'] = selected_function_values_brute
+    results['supports_ts_values'] = selected_function_values_brute
+    results['supports_lasso_values'] = selected_function_values
     results['selected_ts'] = selected_functions_unique
     results['selected_lasso'] = selected_functions_unique_twostage
+    results['dictionary'] = {}
+    results['dictionary']['atoms2'] = atoms2_dicts
+    results['dictionary']['atoms3'] = atoms3_dicts
+    results['dictionary']['atoms4'] = atoms4_dicts
 
     print('saving')
     with open(outfile,'wb') as output:
