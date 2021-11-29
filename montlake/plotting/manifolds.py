@@ -12,7 +12,7 @@ import numpy as np
 # Cell
 import numpy as np
 
-def plot_manifold_2d(data, s, alpha, c, title):
+def plot_manifold_2d(data, s, alpha, c, title, title_color = 'black'):
     fig, axs = plt.subplots(1,1, figsize = (15,10))
 
     axs.set_axis_off()
@@ -26,8 +26,7 @@ def plot_manifold_2d(data, s, alpha, c, title):
     ax.scatter(x, y,  s=s, alpha=alpha, marker='.',vmin=0,vmax=np.pi, c=c )
     ax.set_xlabel(r'$\phi_1$', fontsize = 60)
     ax.set_ylabel(r'$\phi_2$', fontsize = 60)
-    #ax.set_zlabel(r'$\phi_3$', fontsize = 30)
-    ax.set_title(title, fontsize = 80, color= 'orange')
+    ax.set_title(title, fontsize = 80, color= title_color)
 
     xmin = np.float(np.format_float_positional(data[:, 0][selected_points].min(), precision=2, fractional=False))
     xmax = np.float(np.format_float_positional(data[:, 0][selected_points].max(), precision=2, fractional=False))
@@ -37,10 +36,8 @@ def plot_manifold_2d(data, s, alpha, c, title):
     ax.set_yticks([ymin, ymax])
     ax.tick_params(labelsize=30)
 
-    #plt.savefig('/Users/samsonkoelle/Downloads/manigrad-100818/mani-samk-gradients/Figures/figure_for_jmlr/tol_groundtruth_g1')
-
 # Cell
-def plot_manifold_3d(data, s, alpha, c, title):
+def plot_manifold_3d(data, s, alpha, c, title, title_color = 'black'):
 
     fig, axs = plt.subplots(1,1, figsize = (15,10))
     axs.set_axis_off()
@@ -55,7 +52,7 @@ def plot_manifold_3d(data, s, alpha, c, title):
     ax.set_xlabel(r'$\phi_1$', fontsize = 60)
     ax.set_ylabel(r'$\phi_2$', fontsize = 60)
     ax.set_zlabel(r'$\phi_3$', fontsize = 60)
-    ax.set_title(title, fontsize = 80, color = 'orange')
+    ax.set_title(title, fontsize = 80, color = title_color)
 
     xmin = np.float(np.format_float_positional(data[:, 0][selected_points].min(), precision=2, fractional=False))
     xmax = np.float(np.format_float_positional(data[:, 0][selected_points].max(), precision=2, fractional=False))

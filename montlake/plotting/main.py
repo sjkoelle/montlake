@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 from .manifolds import plot_manifold_2d, plot_manifold_3d,plot_manifold_featurespace
 from .plotting import plot_cosines, get_cmap,get_names
-from .flasso import plot_reg_path_ax_lambdasearch_customcolors_norm,plot_watch_custom
+from .flasso import plot_reg_path_ax_lambdasearch_customcolors_norm,plot_watch_custom, plot_watch
 import dill as pickle
 import pathos
-from ..utils.utils import data_stream_custom_range
+from ..utils.utils import data_stream_custom_range, cosine_similarity
 from pathos.multiprocessing import ProcessingPool as Pool
 from ..atomgeom.features import get_features
 from ..utils.utils import get_atoms4_full, get_index_matching, get_cosines
@@ -26,24 +26,34 @@ def plot_experiment(result_file,
                     d,
                     name,
                     outdir,
-                    ncord = 6,
                     embedding= True,
                     ground_truth = None,
                     colors_id_all = None,
                     color_counts_all = None,
                     name_counts_all = None,
-                    ground_truth_colors = None,
-                    names_groundtruth = None,
+                    colors_gt = None,
+                    names_gt = None,
                     cosine_cluster = False,
                    cosine_color = False,
+                    gt_reg_color = False,
+                    sel_reg_color = False,
                    n_components = 2,
                    alpha = 1,
                    ptsize = 1,
-                   selected_cosines = False):
+                    ncord = 6,
+                   selected_cosines = False,
+                   plot_watch_full = False,
+                   plot_watch_results = False):
+
+
 
     print('loading data')
     with open(result_file,'rb') as inp:
         results = pickle.load(inp, pickle.HIGHEST_PROTOCOL)
+
+    p = results['replicates_small'][0].dg_M.shape[2]
+    nreps = results['supports_lasso'][1].shape[0]
+    embed = results['embed']
 
     if ground_truth is not None:
         print('compute ground truth values for comparison' )
@@ -55,33 +65,48 @@ def plot_experiment(result_file,
                                    atoms3 = ground_truth['atoms3'],
                                    atoms4 = ground_truth['atoms4']),
             data_stream_custom_range(list(range(n))))
+        values_gt = np.vstack([np.hstack(gt_results[i]) for i in range(n)])
 
     print('getting ground truth names')
-    if names_groundtruth is None and ground_truth is not None:
+    if names_gt is None and ground_truth is not None:
         natoms = positions.shape[1]
         atoms4 = np.asarray(list(itertools.combinations(range(natoms), 4)))
         superset = results['dictionary']['atoms4']#get_atoms4_full(atoms4) #needs adjustment for diagram dictionaries
         j1 = get_index_matching(ground_truth['atoms4'][0], superset) #needs adjustment for non torsion ground truths
         j2 = get_index_matching(ground_truth['atoms4'][1], superset)
         gt_ind = [j1,j2]
-        names_groundtruth = get_names(np.asarray(gt_ind))
+        names_gt = get_names(np.asarray(gt_ind))
+
+    if ground_truth is not None:
+        for k in range(len(gt_ind)):
+            title = names_gt[k] +' ' +  str(atoms4[gt_ind[k]] + 1)
+            if n_components == 3:
+                plot_manifold_3d(embed, ptsize, alpha, values_gt[:,k], title,title_color = colors_gt[k])#, title_color = colors[s])
+            if n_components == 2:
+                plot_manifold_2d(embed, ptsize, alpha, values_gt[:,k], title,title_color = colors_gt[k])
+
 
     if ground_truth is None:
         gt_ind = []
-        ground_truth_colors = np.empty((0,4), int)
+        colors_gt = np.empty((0,4), int)
 
-    print('getting all colors')
-    colors_all = np.empty((0,4), int)
-    for c in range(len(color_counts_all)):
-        colors_all = np.vstack([colors_all, np.repeat([colors_id_all[c]], color_counts_all[c], axis = 0)])
+    if color_counts_all is not None:
+        print('getting all colors')
+        colors_all = np.empty((0,4), int)
+        for c in range(len(color_counts_all)):
+            colors_all = np.vstack([colors_all, np.repeat([colors_id_all[c]], color_counts_all[c], axis = 0)])
 
     print('getting colors and names of selected functions')
     selected_lasso = results['selected_lasso']
-    colors = get_cmap(selected_lasso)
-    names = get_names(selected_lasso)
+    colors_lasso = get_cmap(selected_lasso)
+    names_lasso = get_names(selected_lasso)
     selected_ts = results['selected_ts']
     colors_ts = get_cmap(selected_ts)
     names_ts = get_names(selected_ts)
+    colors_lasso_full = np.zeros((p,4))
+    colors_lasso_full[selected_lasso] = colors_lasso
+    colors_ts_full = np.zeros((p,4))
+    colors_ts_full[selected_ts] = colors_ts
 
     print('plotting top coordinates in feature space')
     data = results['data']
@@ -90,51 +115,80 @@ def plot_experiment(result_file,
     plt.savefig(outdir + '/features')
 
     print('plotting sample regularization path')
-    print(colors_all)
-    fig, axes_all = plt.subplots(figsize=(15, 10))
-    #colors = np.zeros((p,4))
-    #colors[subset_l0_plusgt] = colors_l0_plusgt
-    #colors_all
-    plot_reg_path_ax_lambdasearch_customcolors_norm(axes_all, results['replicates_small'][0].cs_reorder, results['replicates_small'][0].xaxis_reorder / results['replicates_small'][0].xaxis_reorder.max() , fig,colors_all)#axes_all[0].imshow(asdf)
-    axes_all.set_title('Regularization path (single replicate)', fontsize = 40)
-    axes_all.set_ylabel(r'$||\beta_j||$', fontsize = 40)
-    axes_all.set_xticklabels([])
-    plt.tight_layout()
-    plt.savefig(outdir + '/reg_path')
+    if gt_reg_color:
+        fig, axes_all = plt.subplots(figsize=(15, 10))
+        #colors = np.zeros((p,4))
+        #colors[subset_l0_plusgt] = colors_l0_plusgt
+        plot_reg_path_ax_lambdasearch_customcolors_norm(axes_all, results['replicates_small'][0].cs_reorder, results['replicates_small'][0].xaxis_reorder / results['replicates_small'][0].xaxis_reorder.max() , fig,colors_all)#axes_all[0].imshow(asdf)
+        axes_all.set_title('Regularization path (single replicate)', fontsize = 40)
+        axes_all.set_ylabel(r'$||\beta_j||$', fontsize = 40)
+        axes_all.set_xticklabels([])
+        plt.tight_layout()
+        plt.savefig(outdir + '/reg_path_gt')
+
+    if sel_reg_color:
+        fig, axes_all = plt.subplots(figsize=(15, 10))
+        plot_reg_path_ax_lambdasearch_customcolors_norm(axes_all, results['replicates_small'][0].cs_reorder, results['replicates_small'][0].xaxis_reorder / results['replicates_small'][0].xaxis_reorder.max() , fig,colors_lasso_full)#axes_all[0].imshow(asdf)
+        axes_all.set_title('Regularization path (single replicate)', fontsize = 40)
+        axes_all.set_ylabel(r'$||\beta_j||$', fontsize = 40)
+        axes_all.set_xticklabels([])
+        plt.tight_layout()
+        plt.savefig(outdir + '/reg_path_sel')
 
     if embedding:
-        print('plotting selected function values')
+
 
         supports_lasso_values = np.vstack([np.hstack(results['supports_lasso_values'][i]) for i in range(n)])
         supports_ts_values = np.vstack([np.hstack(results['supports_ts_values'][i]) for i in range(n)])
-        for s in range(len(results['selected_lasso'])):
+        print('plotting selected function values', colors_ts.shape, supports_ts_values.shape)
+        #for s in range(len(results['selected_lasso'])):
+        for s in range(supports_lasso_values.shape[1]):
             c = supports_lasso_values[:,s]
+            title_color = colors_lasso[s]
             title = "put title here"
-            embed = results['embed']
+
             if n_components == 3:
-                plot_manifold_3d(embed, ptsize, alpha, c, title)#, title_color = colors[s])
+                plot_manifold_3d(embed, ptsize, alpha, c, title,title_color = title_color)#, title_color = colors[s])
             if n_components == 2:
-                plot_manifold_2d(embed, ptsize, alpha, c, title)#, colors[s])
+                plot_manifold_2d(embed, ptsize, alpha, c, title,title_color = title_color)#, colors[s])
             plt.savefig(outdir + '/selected_function_lasso_'+ str(s))
-        for s in range(len(results['selected_ts'])):
+        #for s in range(len(results['selected_ts'])):
+        for s in range(supports_ts_values.shape[1]):
+            title_color = colors_ts[s]
             c = supports_ts_values[:,s]
-            embed = results['embed']
             if n_components == 3:
-                plot_manifold_3d(embed, ptsize, alpha, c, title)#, colors_ts[s])
+                plot_manifold_3d(embed, ptsize, alpha, c, title,title_color = title_color)#, colors_ts[s])
             if n_components == 2:
-                plot_manifold_2d(embed, ptsize, alpha, c, title)#, colors_ts[s])
+                plot_manifold_2d(embed, ptsize, alpha, c, title,title_color = title_color)#, colors_ts[s])
             plt.savefig(outdir + '/selected_function_ts_' + str(s))
         print('plotting ground truth function values')
 
     print("plotting watches")
-    p = results['supports_lasso'][0].shape[0]
-    nreps = results['supports_lasso'][1].shape[0]
-    print(results['supports_lasso'][0].shape, p,colors_all.shape)
-    fig, axes_all = plt.subplots(figsize=(15, 10))
-    plot_watch_custom(results['supports_lasso'][0], p, axes_all,colors_all, nreps)
-    axes_all.set_title('Estimated Support', fontsize = 40)
-    plt.tight_layout()
-    plt.savefig(outdir + '/watch')
+    if plot_watch_full:
+        p = results['supports_lasso'][0].shape[0]
+        #print(results['supports_lasso'][0].shape, p,colors_all.shape)
+        fig, axes_all = plt.subplots(figsize=(15, 10))
+        plot_watch_custom(results['supports_lasso'][0], p, axes_all,colors_all, nreps)
+        plt.savefig(outdir + '/watch_full')
+
+    if plot_watch_results:
+        sub = results['supports_lasso'][0]
+        for w in range(len(results['supports_lasso'][0].shape)):
+            sub = np.take(sub, selected_lasso, axis = w)
+        fig, axes_all = plt.subplots(figsize=(15, 10))
+        plot_watch(sub, names=names_lasso, ax = axes_all,colors = colors_lasso, nreps = nreps)
+        axes_all.set_title('Estimated Support', fontsize = 40)
+        plt.tight_layout()
+        plt.savefig(outdir + '/watch_ts')
+
+        sub = results['supports_ts'][0]
+        for w in range(len(results['supports_ts'][0].shape)):
+            sub = np.take(sub, selected_ts, axis = w)
+        fig, axes_all = plt.subplots(figsize=(15, 10))
+        plot_watch(sub, names=names_ts, ax = axes_all,colors = colors_ts, nreps = nreps)
+        axes_all.set_title('Estimated Support', fontsize = 40)
+        plt.tight_layout()
+        plt.savefig(outdir + '/watch_brute')
 
     if d > 1:
         if cosine_color:
@@ -154,11 +208,11 @@ def plot_experiment(result_file,
             print("plotting cosines of ground truth and selected lasso")
             selected_lasso_gt = np.unique(np.concatenate((gt_ind, selected_lasso))) #add 234
             #detected_values = get_detected_values2d(selected_lasso_gt, results['supports_lasso'][0],nreps)
-            colors_lasso_plusgt = np.vstack([ground_truth_colors, colors_all])
-            names_lasso_plusgt = np.concatenate((names_groundtruth, names))
+            colors_lasso_plusgt = np.vstack([colors_gt, colors_lasso])
+            names_lasso_plusgt = np.concatenate((names_gt, names_lasso))
             cuz_l = np.abs(get_cosines(results['replicates_small'][0].dg_M[:,:,selected_lasso_gt]))
             cuz_l0 = np.mean(cuz_l, axis = 0)
-            sns.heatmap(cuz_l0, yticklabels = names_l0, xticklabels = names, ax = axarr, vmin = 0., vmax = 1.)
+            sns.heatmap(cuz_l0, yticklabels = names_lasso_plusgt, xticklabels = names_lasso_plusgt, ax = axarr, vmin = 0., vmax = 1.)
             axarr.set_xticklabels(axarr.get_xmajorticklabels(), fontsize = 30)
             axarr.set_yticklabels(axarr.get_ymajorticklabels(), fontsize = 30)
             if d == 2:
@@ -181,8 +235,8 @@ def plot_experiment(result_file,
             print("plotting cosines of ground truth and selected ts")
             selected_ts_gt = np.unique(np.concatenate((gt_ind, selected_ts))) #add 234
             detected_values = get_detected_values2d(selected_ts_gt, results['supports_ts'],nreps)
-            colors_ts_plusgt = np.concatenate(ground_truth_colors, colors_ts)
-            names_ts_plusgt = np.concatenate(names_groundtruth, names_ts)
+            colors_ts_plusgt = np.concatenate(colors_gt, colors_ts)
+            names_ts_plusgt = np.concatenate(names_gt, names_ts)
             cuz_l = np.abs(get_cosines(np.swapaxes(results['replicates_small'][0].dg_M[:,:,selected_ts_gt], 1,2)))
             cuz_l0 = np.mean(cuz_l, axis = 0)
             sns.heatmap(cuz_l0, yticklabels = names_ts_plusgt, xticklabels = names_ts_plusgt, ax = axarr, vmin = 0., vmax = 1.)
@@ -211,7 +265,7 @@ def plot_experiment(result_file,
             j3 = results['supports_ts'][1][r,0]
             j4 = results['supports_ts'][1][r,1]
 
-            rep = results['replicates_small']
+            rep = results['replicates_small'][0]
             nsel = rep.dg_M.shape[0]
             coses[r,0,0] = np.sum(np.abs(np.asarray([cosine_similarity(rep.dg_M[i,:,j1], rep.dg_M[i,:,j3]) for i in range(nsel)]))) / nsel
             coses[r,0,1] = np.sum(np.abs(np.asarray([cosine_similarity(rep.dg_M[i,:,j1], rep.dg_M[i,:,j4]) for i in range(nsel)]))) / nsel
