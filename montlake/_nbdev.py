@@ -61,6 +61,7 @@ index = {"data_stream_custom_range": "utils.utils.ipynb",
          "get_supports_brute": "utils.replicates.ipynb",
          "get_supports_brute_tslasso": "utils.replicates.ipynb",
          "Replicate": "utils.replicates.ipynb",
+         "get_index_matching": "utils.utils.ipynb",
          "get_234_indices": "utils.utils.ipynb",
          "get_atoms4_full": "utils.utils.ipynb",
          "get_atoms3_full": "utils.utils.ipynb"}

@@ -109,30 +109,21 @@ def plot_reg_path_ax_lambdasearch_customcolors_norm(ax, coeffs, xaxis, fig, colo
 
 def plot_watch_custom(to_plot, p, ax, colors,nreps):
 
-    # fig, ax = plt.subplots(figsize = (15,15))
-    # %matplotlib inline
-
-    # fig, ax = plt.subplots(figsize = (15,15))
     theta = np.linspace(0, 2 * np.pi, 10000)
     cmap = plt.get_cmap('twilight_shifted', p)
-
     angles = np.linspace(0, 2 * np.pi, p + 1)
-
     radius = 1.
-
     a = radius * np.cos(theta)
     b = radius * np.sin(theta)
 
     ax.scatter(a, b, color='gray', s=.2,alpha=.1)
-
-    # for i in range(to_plot.shape)
     if len(to_plot.shape) > 1:
         totes = np.sum(to_plot, axis=0)
     else:
         totes = to_plot
 
     for j in range(p):
-        print(np.cos(angles[j]), np.sin(angles[j]))  # r'$test \frac{1}{}$'.format(g)
+        #print(np.cos(angles[j]), np.sin(angles[j]))  # r'$test \frac{1}{}$'.format(g)
         ax.scatter(np.cos(angles[j]), np.sin(angles[j]), color=cmap.colors[j], marker='x')
         ax.text(x=1.1 * np.cos(angles[j]),
                 y=1.1 * np.sin(angles[j]),
@@ -151,18 +142,9 @@ def plot_watch_custom(to_plot, p, ax, colors,nreps):
     if len(to_plot.shape) > 1:
         for i in range(p):
             for j in range(p):
-
-                # point1 = [1, 2]
-                # point2 = [3, 4]
-
                 x_values = [np.cos(angles[j]), np.cos(angles[i])]
-                # gather x-values
-
                 y_values = [np.sin(angles[j]), np.sin(angles[i])]
-                # gather y-values
-
                 ax.plot(x_values, y_values, linewidth=to_plot[i, j], color='black')
-
                 if to_plot[i, j] > 0:
                     ax.text(x=np.mean(x_values),
                             y=np.mean(y_values),

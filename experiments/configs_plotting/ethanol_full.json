@@ -1,7 +1,7 @@
 {
-    "result_file": "/Users/samsonkoelle/thesis_data/processed_data_2/rigidethanol/re_nonoise_diagram_mfresults_mflasso",
-    "outdir": "/Users/samsonkoelle/thesis_data/plots/rigidethanol",
-    "position_file": "/Users/samsonkoelle/thesis_data/raw_data/rigidethanol_nonoise.npy",
+    "result_file": "/Users/samsonkoelle/thesis_data/processed_data_2/ethanol/re_nonoise_diagram_mfresults_mflasso",
+    "outdir": "/Users/samsonkoelle/thesis_data/plots/ethanol_full",
+    "position_file": "/Users/samsonkoelle/thesis_data/raw_data/ethanol.npy",
     "d": 2,
     "name": "Rigid Ethanol",
     "ncord": 6,
