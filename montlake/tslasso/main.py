@@ -141,12 +141,12 @@ def run_exp(positions, hparams):
 
     #get manifold lasso support
     selected_functions_unique = np.asarray(np.unique(get_selected_function_ids(replicates,d)), dtype = int)
-    supports_lasso = get_supports_lasso(replicates,p,d)
+    support_tensor_lasso, supports_lasso = get_supports_lasso(replicates,p,d)
 
     #get two stage support
     selected_functions_lm2 = get_selected_functions_lm2(replicates)
-    supports_brute = get_supports_brute_tslasso(replicates,nreps,p,d,selected_functions_lm2)
-    selected_functions_unique_twostage  = np.asarray(np.where(supports_brute > 0.)[0], dtype = int)
+    support_tensor_ts, supports_ts  = get_supports_brute_tslasso(replicates,nreps,p,d,selected_functions_lm2)
+    selected_functions_unique_twostage  = np.asarray(np.where(support_tensor_ts > 0.)[0], dtype = int)
 
     pool.close()
     pool.restart()
@@ -173,9 +173,6 @@ def run_exp(positions, hparams):
     selected_function_values_array_brute = np.vstack([np.hstack(selected_function_values_brute[i]) for i in range(n)])
 
     #remove large gradient arrays
-
-
-
     print('prep save')
     replicates_small = {}
     for r in range(nreps):
@@ -193,13 +190,17 @@ def run_exp(positions, hparams):
     results = {}
     results['replicates_small'] = replicates_small
     results['data'] = data_svd
-    results['supports_brute'] = supports_brute
-    results['supports_lasso'] = supports_lasso
+    results['supports_ts'] = support_tensor_ts, supports_ts
+    results['supports_lasso'] = support_tensor_lasso, supports_lasso
     results['selected_function_values'] = selected_function_values
     results['selected_function_values_brute'] = selected_function_values_brute
     results['selected_functions_unique'] = selected_functions_unique
     results['selected_functions_unique_twostage'] = selected_functions_unique_twostage
     results['geom'] = geom
+    results['dictionary'] = {}
+    results['dictionary']['atoms2'] = atoms2_dicts
+    results['dictionary']['atoms3'] = atoms3_dicts
+    results['dictionary']['atoms4'] = atoms4_dicts
 
     #save
     with open(outfile,'wb') as output:

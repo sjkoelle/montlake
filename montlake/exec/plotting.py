@@ -78,6 +78,27 @@ if __name__ == "__main__" and not IN_NOTEBOOK:
         hparams.ground_truth[key] = np.asarray(hparams.ground_truth[key], dtype = int)
 
     print('plotting',hparams.ground_truth)
+    #if not hparams.color_counts_all:
+    #    hparams.color_counts_all = None
+
+    #hparams.color_counts_all = hparams.color_counts_all or None
+   # hparams.colors_id_all = hparams.colors_id_all or None
+#     kwargs = dict(result_file = hparams.result_file,
+#                     positions = positions,
+#                     d = hparams.d,
+#                     name = hparams.name,
+#                     ncord = hparams.ncord,
+#                     embedding = hparams.embedding,
+#                     ground_truth = hparams.ground_truth,
+#                     ground_truth_colors = hparams.ground_truth_colors,
+#                     outdir = hparams.outdir,
+#                     color_counts_all = hparams.color_counts_all,
+#                    colors_id_all = hparams.colors_id_all,
+#                    n_components = hparams.n_components,
+#                    ptsize = hparams.ptsize,
+#                    alpha = hparams.alpha)
+#    plot_experiment(**{k: v for k, v in kwargs.items() if v is not None})
+#    plot_experiment(**{k: v for k, v in kwargs.items() if v is not None})
     plot_experiment(result_file = hparams.result_file,
                     positions = positions,
                     d = hparams.d,
