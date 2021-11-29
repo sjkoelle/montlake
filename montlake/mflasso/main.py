@@ -167,14 +167,14 @@ def run_exp(positions, hparams):
     selected_function_values_array = np.vstack([np.hstack(selected_function_values[i]) for i in range(n)])
 
     print('computing selected function values two stage, ' + str(selected_functions_unique_twostage))
-    selected_function_values_brute = pool.map(
+    selected_function_values_ts = pool.map(
                     lambda i: get_features(positions[i],
                                            atoms2 = np.asarray([]),
                                            atoms3 = np.asarray([]),
                                            atoms4 = atoms4_dicts[selected_functions_unique_twostage]),
                     data_stream_custom_range(list(range(n))))
 
-    selected_function_values_array_brute = np.vstack([np.hstack(selected_function_values_brute[i]) for i in range(n)])
+    selected_function_values_array_brute = np.vstack([np.hstack(selected_function_values_ts[i]) for i in range(n)])
 
     print('remove large gradient arrays for memory efficiency')
     replicates_small = {}
@@ -198,10 +198,10 @@ def run_exp(positions, hparams):
     results['data'] = data_svd
     results['supports_ts'] = support_tensor_ts, supports_ts
     results['supports_lasso'] = support_tensor_lasso, supports_lasso
-    results['supports_ts_values'] = selected_function_values_brute
+    results['supports_ts_values'] = selected_function_values_ts
     results['supports_lasso_values'] = selected_function_values
-    results['selected_ts'] = selected_functions_unique
-    results['selected_lasso'] = selected_functions_unique_twostage
+    results['selected_ts'] = selected_functions_unique_twostage
+    results['selected_lasso'] = selected_functions_unique
     results['dictionary'] = {}
     results['dictionary']['atoms2'] = atoms2_dicts
     results['dictionary']['atoms3'] = atoms3_dicts

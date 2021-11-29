@@ -106,10 +106,15 @@ if __name__ == "__main__" and not IN_NOTEBOOK:
                     ncord = hparams.ncord,
                     embedding = hparams.embedding,
                     ground_truth = hparams.ground_truth,
-                    ground_truth_colors = hparams.ground_truth_colors,
+                    colors_gt = hparams.ground_truth_colors,
                     outdir = hparams.outdir,
                     color_counts_all = hparams.color_counts_all,
                    colors_id_all = hparams.colors_id_all,
                    n_components = hparams.n_components,
                    ptsize = hparams.ptsize,
-                   alpha = hparams.alpha)
+                   alpha = hparams.alpha,
+                   gt_reg_color = hparams.gt_reg_color,
+                   sel_reg_color = hparams.sel_reg_color,
+                   plot_watch_full = hparams.plot_watch_full,
+                   plot_watch_results = hparams.plot_watch_results
+                   )

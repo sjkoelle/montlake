@@ -13,10 +13,14 @@
     "colors_id_all": [[0,0,1,1], [1,0.64,0,1]],
     "color_counts_all": null,
     "name_counts_all": null,
+    "sel_reg_color": true,
+    "gt_reg_color": false,
     "cosine_color": true,
     "cosine_cluster": false,
     "n_components": 3,
     "alpha":1,
     "ptsize": 1,
-    "selected_cosines": true
+    "selected_cosines": true,
+    "plot_watch_full": false,
+    "plot_watch_results":true
 }
