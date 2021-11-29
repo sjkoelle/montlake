@@ -1,7 +1,7 @@
 {
     "result_file": "/Users/samsonkoelle/thesis_data/processed_data_2/ethanol/eth_diagram_tsresults_tslasso",
-    "outdir": "/Users/samsonkoelle/thesis_data/plots/ethanol_diagram",
-    "position_file": "/Users/samsonkoelle/thesis_data/processed_data_2/ethanol/positionseth_full_mf.npy",
+    "outdir": "/Users/samsonkoelle/thesis_data/plots/ethanol_diagram/ts",
+    "position_file": "/Users/samsonkoelle/thesis_data/processed_data_2/ethanol/positionseth_full_ts.npy",
     "d": 2,
     "name": "Ethanol",
     "ncord": 6,

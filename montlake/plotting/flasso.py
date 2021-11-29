@@ -107,7 +107,7 @@ def plot_reg_path_ax_lambdasearch_customcolors_norm(ax, coeffs, xaxis, fig, colo
     ax.grid(True, which="both", alpha=True)
 
 
-def plot_watch_custom(to_plot, p, ax, colors,nreps):
+def plot_watch_custom(to_plot, p, ax, colors,nreps, s=.1):
 
     theta = np.linspace(0, 2 * np.pi, 10000)
     cmap = plt.get_cmap('twilight_shifted', p)
@@ -116,7 +116,7 @@ def plot_watch_custom(to_plot, p, ax, colors,nreps):
     a = radius * np.cos(theta)
     b = radius * np.sin(theta)
 
-    ax.scatter(a, b, color='gray', s=.2,alpha=.1)
+    ax.scatter(a, b, color='gray', s = .2, alpha=.1)
     if len(to_plot.shape) > 1:
         totes = np.sum(to_plot, axis=0)
     else:
@@ -132,19 +132,19 @@ def plot_watch_custom(to_plot, p, ax, colors,nreps):
                 horizontalalignment='center',
                 verticalalignment='center')
 
-        ax.text(x=.9 * np.cos(angles[j]), y=.9 * np.sin(angles[j]), s=str(totes[j] / nreps), fontdict={'fontsize': 40},
+        ax.text(x=.9 * np.cos(angles[j]), y=.9 * np.sin(angles[j]), s=str(totes[j] / nreps), fontdict={'fontsize': 100 * s},
                 horizontalalignment='center',
                 verticalalignment='center')
 
     for j in range(p):
-        ax.scatter(np.cos(angles[j]), np.sin(angles[j]), color=colors[j], marker='o', s=200 * totes[j])
+        ax.scatter(np.cos(angles[j]), np.sin(angles[j]), color=colors[j], marker='o', s= s* 200 * totes[j])
 
     if len(to_plot.shape) > 1:
         for i in range(p):
             for j in range(p):
                 x_values = [np.cos(angles[j]), np.cos(angles[i])]
                 y_values = [np.sin(angles[j]), np.sin(angles[i])]
-                ax.plot(x_values, y_values, linewidth=to_plot[i, j], color='black')
+                ax.plot(x_values, y_values, linewidth=to_plot[i, j] * 3*s, color='black')
                 if to_plot[i, j] > 0:
                     ax.text(x=np.mean(x_values),
                             y=np.mean(y_values),
