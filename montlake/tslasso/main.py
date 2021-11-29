@@ -85,10 +85,16 @@ def run_exp(positions, hparams):
     svd = TruncatedSVD(n_components=50)
     data_svd = svd.fit_transform(data)
 
+
     #compute geometry
     radius = hparams.radius
     n_neighbors = hparams.n_neighbors
     geom = get_geom(data_svd, radius, n_neighbors)
+
+    print('computing embedding (for comparison)')
+    spectral_embedding = SpectralEmbedding(n_components=n_components,eigen_solver='arpack',geom=geom)
+    embed_spectral = spectral_embedding.fit_transform(data_svd)
+    embed = embed_spectral
 
     #obtain gradients
     if atoms2_dict:
@@ -190,12 +196,13 @@ def run_exp(positions, hparams):
     results = {}
     results['replicates_small'] = replicates_small
     results['data'] = data_svd
+    results['embed'] = embedding
     results['supports_ts'] = support_tensor_ts, supports_ts
     results['supports_lasso'] = support_tensor_lasso, supports_lasso
-    results['selected_function_values'] = selected_function_values
-    results['selected_function_values_brute'] = selected_function_values_brute
-    results['selected_functions_unique'] = selected_functions_unique
-    results['selected_functions_unique_twostage'] = selected_functions_unique_twostage
+    results['supports_lasso_values'] = selected_function_values
+    results['supports_ts_values'] = selected_function_values_brute
+    results['selected_lasso'] = selected_functions_unique
+    results['selected_ts'] = selected_functions_unique_twostage
     results['geom'] = geom
     results['dictionary'] = {}
     results['dictionary']['atoms2'] = atoms2_dicts
