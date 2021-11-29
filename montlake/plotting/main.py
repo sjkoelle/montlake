@@ -78,13 +78,13 @@ def plot_experiment(result_file,
         names_gt = get_names(np.asarray(gt_ind))
 
     if ground_truth is not None:
+        print('plotting ground truth function values')
         for k in range(len(gt_ind)):
             title = names_gt[k] +' ' +  str(atoms4[gt_ind[k]] + 1)
             if n_components == 3:
                 plot_manifold_3d(embed, ptsize, alpha, values_gt[:,k], title,title_color = colors_gt[k])#, title_color = colors[s])
             if n_components == 2:
                 plot_manifold_2d(embed, ptsize, alpha, values_gt[:,k], title,title_color = colors_gt[k])
-
 
     if ground_truth is None:
         gt_ind = []
@@ -145,7 +145,7 @@ def plot_experiment(result_file,
         for s in range(supports_lasso_values.shape[1]):
             c = supports_lasso_values[:,s]
             title_color = colors_lasso[s]
-            title = "put title here"
+            title = names_lasso[s] + ' ' + str(atoms4[selected_lasso[s]] + 1)
 
             if n_components == 3:
                 plot_manifold_3d(embed, ptsize, alpha, c, title,title_color = title_color)#, title_color = colors[s])
@@ -155,13 +155,14 @@ def plot_experiment(result_file,
         #for s in range(len(results['selected_ts'])):
         for s in range(supports_ts_values.shape[1]):
             title_color = colors_ts[s]
+            title = names_ts[s] + ' ' + str(atoms4[selected_ts[s]] + 1)
             c = supports_ts_values[:,s]
             if n_components == 3:
                 plot_manifold_3d(embed, ptsize, alpha, c, title,title_color = title_color)#, colors_ts[s])
             if n_components == 2:
                 plot_manifold_2d(embed, ptsize, alpha, c, title,title_color = title_color)#, colors_ts[s])
             plt.savefig(outdir + '/selected_function_ts_' + str(s))
-        print('plotting ground truth function values')
+
 
     print("plotting watches")
     if plot_watch_full:
@@ -192,9 +193,10 @@ def plot_experiment(result_file,
 
     if d > 1:
         if cosine_color:
-            print("plotting full cosine matrix colored")
+            cosines_full= results['replicates_small'][0].cosine_abs
+            print("plotting full cosine matrix colored",cosines_full.shape)
             fig, axes_all = plt.subplots(figsize=(15, 10))
-            cosines_full= results['replicates_small'].cosines
+
             plot_cosines(cosines_full, axes_all, colors_all)
             plt.savefig(outdir + '/cosine_colored')
 
