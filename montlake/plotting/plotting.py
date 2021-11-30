@@ -137,16 +137,16 @@ def plot_cosines(cosines, ax, colors):
         fontsize=70)
 
 # Cell
-def plot_cosines_cluster(rep):
+def plot_cosines_cluster(cos):
 
-    clustermap = sns.clustermap(rep.cos)
+    clustermap = sns.clustermap(cos)
     clustermap.ax_row_dendrogram.set_visible(False)
     clustermap.ax_col_dendrogram.set_visible(False)
 
     sns.set(font_scale=2)
     f, axarr = plt.subplots(1,1, figsize=(10, 10))
     #[ax.set_axis_off() for ax in axarr.ravel()]
-    sns.heatmap(rep.cos[clustermap.dendrogram_col.reordered_ind][:,clustermap.dendrogram_col.reordered_ind], ax = axarr)
+    sns.heatmap(cos[clustermap.dendrogram_col.reordered_ind][:,clustermap.dendrogram_col.reordered_ind], ax = axarr)
     axarr.set_title(r"$\frac{1}{n'} \sum_{i = 1}^{n'} \frac{ | \langle grad_{\mathcal M} g_j (\xi_i) ,grad_{\mathcal M} g_{j'} (\xi_i)\rangle}{\|grad_{\mathcal M} g_i (\xi_i) \| \| grad_{\mathcal M} g_j(\xi_i) \|} $" ,
                     fontsize = 30)
     axarr.set_xticklabels([])

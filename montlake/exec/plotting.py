@@ -117,5 +117,7 @@ if __name__ == "__main__" and not IN_NOTEBOOK:
                    sel_reg_color = hparams.sel_reg_color,
                    plot_watch_full = hparams.plot_watch_full,
                    plot_watch_results = hparams.plot_watch_results,
-                    cosine_color = hparams.cosine_color
+                    cosine_color = hparams.cosine_color,
+                    selected_cosines = hparams.selected_cosines,
+                    cosine_cluster = hparams.cosine_cluster
                    )

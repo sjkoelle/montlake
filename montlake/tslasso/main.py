@@ -152,7 +152,7 @@ def run_exp(positions, hparams):
     #get two stage support
     selected_functions_lm2 = get_selected_functions_lm2(replicates)
     support_tensor_ts, supports_ts  = get_supports_brute_tslasso(replicates,nreps,p,d,selected_functions_lm2)
-    selected_functions_unique_twostage  = np.asarray(np.where(support_tensor_ts > 0.)[0], dtype = int)
+    selected_functions_unique_twostage  = np.asarray(np.unique(supports_ts), dtype = int)#np.unique(np.asarray(np.where(support_tensor_ts > 0.)[0], dtype = int))
 
     pool.close()
     pool.restart()
