@@ -94,7 +94,7 @@ def run_exp(positions, hparams):
     print('computing embedding (for comparison)')
     spectral_embedding = SpectralEmbedding(n_components=n_components,eigen_solver='arpack',geom=geom)
     embed_spectral = spectral_embedding.fit_transform(data_svd)
-    embed = embed_spectral
+    embedding = embed_spectral
 
     #obtain gradients
     if atoms2_dict:

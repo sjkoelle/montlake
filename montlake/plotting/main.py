@@ -198,6 +198,7 @@ def plot_experiment(result_file,
             fig, axes_all = plt.subplots(figsize=(15, 10))
 
             plot_cosines(cosines_full, axes_all, colors_all)
+            plt.tight_layout()
             plt.savefig(outdir + '/cosine_colored')
 
 
