@@ -31,7 +31,7 @@ def get_index_matching_234(probe_dict, super_dict):
                                              probe[[3,1,2,0]]])
                 for p in range(4): #should only be present once
                     print(probe, super_dict['atoms4'],tuple(probe_permuted[p]))
-                    match_id = np.where((super_dict['atoms4']==tuple(probe_permuted[p])).all(1))[0]
+                    match_id = np.where((np.asarray(super_dict['atoms4'])==tuple(probe_permuted[p])).all(1))[0]
                     match_id += n2s + n3s
                     output = np.concatenate((output,match_id))
             if len(probe) == 3:

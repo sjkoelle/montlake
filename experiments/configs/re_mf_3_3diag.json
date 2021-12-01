@@ -11,7 +11,7 @@
     "atoms4_feat"  : false,
     "atoms2_dict" : false,
     "atoms3_dict" : true,
-    "atoms4_dict" : false,
+    "atoms4_dict" : true,
     "diagram" : true,
 	"radius" : 0.177,
 	"n_neighbors" : 1000,

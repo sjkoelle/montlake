@@ -78,6 +78,7 @@ def plot_experiment(result_file,
         #superset = results['dictionary']['atoms4']#get_atoms4_full(atoms4) #needs adjustment for diagram dictionaries
         #j1 = get_index_matching(ground_truth['atoms4'][0], superset) #needs adjustment for non torsion ground truths
         #j2 = get_index_matching(ground_truth['atoms4'][1], superset)
+        print(results['dictionary']['atoms4'])
         j1,j2 = get_index_matching_234(ground_truth, results['dictionary']) #2d specific
         gt_ind = [j1,j2]
         names_gt = get_names(np.asarray(gt_ind))

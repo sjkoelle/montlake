@@ -14,7 +14,7 @@
     "color_counts_all": [9,3],
     "name_counts_all": [9,3],
     "gt_reg_color": true,
-    "sel_reg_color": false,
+    "sel_reg_color": true,
     "plot_watch_full": false,
     "plot_watch_results": true,
     "cosine_color": true,
