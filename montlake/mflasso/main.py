@@ -145,11 +145,19 @@ def run_exp(positions, hparams):
     print('getting manifold lasso support')
     selected_functions_unique = np.asarray(np.unique(get_selected_function_ids(replicates,d)), dtype = int)
     support_tensor_lasso, supports_lasso = get_supports_lasso(replicates,p,d)
+    sel_las_un_dict = get_234(selected_functions_unique,
+                             n2s = len(atoms2_dicts),
+                             n3s = len(atoms3_dicts),
+                             n4s = len(atoms4_dicts))
 
     print('getting two-stage support')
     selected_functions_lm2 = get_selected_functions_lm2(replicates)
     support_tensor_ts, supports_ts = get_supports_brute(replicates,nreps,p,d,selected_functions_lm2)
     selected_functions_unique_twostage  = np.unique(np.asarray(np.where(support_tensor_ts > 0.)[0], dtype = int))
+    sel_ts_un_dict = get_234(selected_functions_unique_twostage,
+                             n2s = len(atoms2_dicts),
+                             n3s = len(atoms3_dicts),
+                             n4s = len(atoms4_dicts))
 
     pool.close()
     pool.restart()
@@ -158,9 +166,9 @@ def run_exp(positions, hparams):
     print('computing selected function values lasso, ' + str(selected_functions_unique))
     selected_function_values = pool.map(
                     lambda i: get_features(positions[i],
-                                           atoms2 = np.asarray([]),
-                                           atoms3 = np.asarray([]),
-                                           atoms4 = atoms4_dicts[selected_functions_unique]),
+                                           atoms2 = atoms2_dicts[sel_las_un_dict['atoms2']],
+                                           atoms3 = atoms3_dicts[sel_las_un_dict['atoms3']],
+                                           atoms4 = atoms4_dicts[sel_las_un_dict['atoms4']]),
                     data_stream_custom_range(list(range(n))))
 
     selected_function_values_array = np.vstack([np.hstack(selected_function_values[i]) for i in range(n)])
@@ -168,9 +176,9 @@ def run_exp(positions, hparams):
     print('computing selected function values two stage, ' + str(selected_functions_unique_twostage))
     selected_function_values_ts = pool.map(
                     lambda i: get_features(positions[i],
-                                           atoms2 = np.asarray([]),
-                                           atoms3 = np.asarray([]),
-                                           atoms4 = atoms4_dicts[selected_functions_unique_twostage]),
+                                           atoms2 = atoms2_dicts[sel_ts_un_dict['atoms2']],
+                                           atoms3 = atoms3_dicts[sel_ts_un_dict['atoms3']],
+                                           atoms4 = atoms4_dicts[sel_ts_un_dict['atoms4']]),
                     data_stream_custom_range(list(range(n))))
 
     selected_function_values_array_brute = np.vstack([np.hstack(selected_function_values_ts[i]) for i in range(n)])

@@ -134,14 +134,10 @@ from .features import position_to_torsion,position_to_distances,position_to_plan
 def get_features(positions,atoms2 = np.asarray([]), atoms3 = np.asarray([]), atoms4 = np.asarray([])):
 
     positions=torch.tensor(positions, requires_grad = False)
-
     combos = np.asarray([[0, 1, 2], [1, 2, 3], [0, 2, 3], [0, 1, 3]])
-
-
     natoms2 = len(atoms2)
     natoms3 = len(atoms3)
     natoms4 = len(atoms4)
-
     distances = np.zeros((natoms2))
     planarangles = np.zeros((natoms3))
     torsions = np.zeros((natoms4))
@@ -150,7 +146,6 @@ def get_features(positions,atoms2 = np.asarray([]), atoms3 = np.asarray([]), ato
         atom2 = atoms2[d]
         for e in range(1):
             pos2 = positions[atom2]
-            #print(pos2)
             distances[d] = position_to_distances(pos2, grad = False)
 
     for p in range(natoms3):
