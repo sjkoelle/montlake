@@ -16,7 +16,7 @@ import pathos
 from ..utils.utils import data_stream_custom_range, cosine_similarity
 from pathos.multiprocessing import ProcessingPool as Pool
 from ..atomgeom.features import get_features
-from ..utils.utils import get_atoms4_full, get_index_matching, get_cosines
+from ..utils.utils import get_atoms4_full, get_index_matching, get_cosines, get_index_matching_234
 from ..utils.replicates import get_detected_values2d
 import numpy as np
 import itertools
@@ -75,9 +75,10 @@ def plot_experiment(result_file,
     if names_gt is None and ground_truth is not None:
         natoms = positions.shape[1]
         #atoms4 = np.asarray(list(itertools.combinations(range(natoms), 4)))
-        superset = results['dictionary']['atoms4']#get_atoms4_full(atoms4) #needs adjustment for diagram dictionaries
-        j1 = get_index_matching(ground_truth['atoms4'][0], superset) #needs adjustment for non torsion ground truths
-        j2 = get_index_matching(ground_truth['atoms4'][1], superset)
+        #superset = results['dictionary']['atoms4']#get_atoms4_full(atoms4) #needs adjustment for diagram dictionaries
+        #j1 = get_index_matching(ground_truth['atoms4'][0], superset) #needs adjustment for non torsion ground truths
+        #j2 = get_index_matching(ground_truth['atoms4'][1], superset)
+        j1,j2 = get_index_matching_234(ground_truth, results['dictionary']) #2d specific
         gt_ind = [j1,j2]
         names_gt = get_names(np.asarray(gt_ind))
 

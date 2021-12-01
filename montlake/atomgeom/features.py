@@ -87,14 +87,11 @@ def get_D_pos_feats(positions, atoms2, atoms3, atoms4):
     for d in range(natoms2):
         atom2 = atoms2[d]
         pos2 = positions[atom2]
-        #print(pos2)
         distances[d] = position_to_distances(pos2)
         D_atompos_pairdist[:,:,d] = positions.grad
         positions.grad.zero_()
 
-
     for p in range(natoms3):
-
         atom3 = atoms3[p]
         pos3 = positions[atom3]
         planarangles[p] = position_to_planarangle(pos3)
@@ -134,7 +131,6 @@ from .features import position_to_torsion,position_to_distances,position_to_plan
 def get_features(positions,atoms2 = np.asarray([]), atoms3 = np.asarray([]), atoms4 = np.asarray([])):
 
     positions=torch.tensor(positions, requires_grad = False)
-    combos = np.asarray([[0, 1, 2], [1, 2, 3], [0, 2, 3], [0, 1, 3]])
     natoms2 = len(atoms2)
     natoms3 = len(atoms3)
     natoms4 = len(atoms4)

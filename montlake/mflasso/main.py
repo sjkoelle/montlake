@@ -7,7 +7,7 @@ __all__ = ['run_exp']
 from ..atomgeom.features import get_features,get_D_feats_feats
 from ..atomgeom.utils import get_atoms_4
 from ..simulations.rigidethanol import get_rigid_ethanol_data
-from ..utils.utils import get_234_indices, get_atoms3_full, get_atoms4_full, data_stream_custom_range, get_cosines
+from ..utils.utils import get_234, get_atoms3_full, get_atoms4_full, data_stream_custom_range, get_cosines
 from ..geometry.geometry import get_geom, get_wlpca_tangent_sel, get_rm_tangent_sel
 from ..gradients.estimate import get_grads_pullback
 from ..statistics.normalization import normalize_L212
