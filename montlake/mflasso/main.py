@@ -130,7 +130,6 @@ def run_exp(positions, hparams):
         replicates[r].dphispectral_M = get_grads_pullback(data_svd,  embedding, geom, replicates[r].tangent_bases_M, replicates[r].tangent_bases_phi, replicates[r].selected_points)
         replicates[r].dphispectral_M_normalized = normalize_L212(replicates[r].dphispectral_M)
 
-
     print('running manifold lasso')
     gl_itermax= hparams.gl_itermax
     reg_l2 = hparams.reg_l2
