@@ -17,7 +17,7 @@ pip install git+git://github.com/sjkoelle/montlake/
 
 # Usage
 
-After pulling, code from the experiments folder can be used recreate results from Manifold Coordinates with Physical Meaning (https://arxiv.org/abs/1811.11891).
+After installation, code from the experiments folder can be used recreate results from Manifold Coordinates with Physical Meaning (https://arxiv.org/abs/1811.11891).
 Individual analyses are parameterized in experiments/configs and can be called from the command line.
 
 ```
