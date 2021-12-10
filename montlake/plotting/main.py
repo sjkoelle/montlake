@@ -94,6 +94,7 @@ def plot_experiment(result_file,
         gt_ind = []
         colors_gt = np.empty((0,4), int)
 
+    print('cca', color_counts_all)
     if color_counts_all is not None:
         print('getting all colors')
         colors_all = np.empty((0,4), int)
