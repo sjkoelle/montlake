@@ -6,6 +6,7 @@ It also contains differentiable shape featurizations including interpoint distan
 It uses embedding and tangent estimation components of the megaman package.
 
 # Installation
+You can install Montlake into Python directly from the command line without cloning the repository. 
 
 ```
 conda create -n 'montlake' python=3.6
