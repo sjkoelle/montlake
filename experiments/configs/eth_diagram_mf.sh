@@ -14,6 +14,6 @@ export DATA_DIR=/homes/sjkoelle/thesis_data
 
 source activate montlake
 cd ~/montlake
-python -u -m montlake.exec.run_exp --config {ROOT_DIR}/experiments/configs/ethanol_diagram.json --outdir {DATA_DIR}/processed_data/eth_diagram_mflasso_122221 --raw_data {DATA_DIR}/raw_data/ethanol.mat --nreps 25 --mflasso --name eth_diagram
+python -u -m montlake.exec.run_exp --config $ROOT_DIR/experiments/configs/ethanol_diagram.json --outdir $DATA_DIR/processed_data/eth_diagram_mflasso_122221 --raw_data $DATA_DIR/raw_data/ethanol.mat --nreps 25 --mflasso --name eth_diagram
 source deactivate
 echo "end"

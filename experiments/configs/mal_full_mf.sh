@@ -13,6 +13,6 @@ export ROOT_DIR=/homes/sjkoelle/montlake
 export DATA_DIR=/homes/sjkoelle/thesis_data
 source activate montlake
 cd ~/montlake
-python -u -m montlake.exec.run_exp --config {ROOT_DIR}/experiments/configs/malonaldehyde_full.json --outdir {DATA_DIR}/processed_data/mal_full_mflasso_122221 --raw_data {DATA_DIR}/raw_data/malonaldehyde.mat --nreps 25 --mflasso --name mal_full
+python -u -m montlake.exec.run_exp --config $ROOT_DIR/experiments/configs/malonaldehyde_full.json --outdir $DATA_DIR/processed_data/mal_full_mflasso_122221 --raw_data $DATA_DIR/raw_data/malonaldehyde.mat --nreps 25 --mflasso --name mal_full
 source deactivate
 echo "end"
