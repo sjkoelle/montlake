@@ -9,8 +9,11 @@
 #SBATCH --mail-user=sjkoelle@gmail.com # Email to which notifications will be sent
 
 export PATH="~/anaconda3/bin:$PATH"
+export ROOT_DIR=/homes/sjkoelle/montlake
+export DATA_DIR=/homes/sjkoelle/thesis_data
+
 source activate montlake
 cd ~/montlake
-python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/toluene_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data_2/toluene --raw_data /homes/sjkoelle/thesis_data/raw_data/toluene.mat --nreps 25 --mflasso --name tol_diagram_mf
+python -u -m montlake.exec.run_exp --config $ROOT_DIR/experiments/configs/toluene_diagram.json --outdir $DATA_DIR/processed_data/tol_diagram_mflasso_122221 --raw_data $DATA_DIR/raw_data/toluene.mat --nreps 25 --mflasso --name tol_diagram_mflasso_122221
 source deactivate
 echo "end"
