@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --cpus-per-task=8
 #SBATCH --partition=largemem
-#SBATCH --mem=10000
+#SBATCH --mem=50000
 #SBATCH --job-name=e_f_ts_500
 #SBATCH --error=e_f_ts_500.err
 #SBATCH --output=e_f_ts_500.log
