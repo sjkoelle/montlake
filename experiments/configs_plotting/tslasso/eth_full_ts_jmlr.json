@@ -1,7 +1,7 @@
 {
-    "result_file": "/Users/samsonkoelle/thesis_data/processed_data_2/ethanol/eth_full_mfresults_mflasso",
-    "outdir": "/Users/samsonkoelle/thesis_data/plots/ethanol_full",
-    "position_file": "/Users/samsonkoelle/thesis_data/processed_data_2/ethanol/positionseth_full_mf.npy",
+    "result_file": "/Users/samsonkoelle/thesis_data/processed_data/ethanol/eth_full_tslasso_122221/eth_full_tslasso_122221results_tslasso",
+    "outdir": "/Users/samsonkoelle/mani-samk-gradients/Figures/tslasso/eth_full_122221",
+    "position_file": "/Users/samsonkoelle/thesis_data/processed_data/ethanol/eth_full_tslasso_122221/positionseth_full_tslasso_122221.npy",
     "d": 2,
     "name": "Ethanol",
     "ncord": 6,
@@ -13,14 +13,17 @@
     "colors_id_all": [[0,0,1,1], [1,0.64,0,1]],
     "color_counts_all": null,
     "name_counts_all": null,
+    "names_gt_plot":[1,2],
     "sel_reg_color": true,
     "gt_reg_color": false,
-    "cosine_color": true,
-    "cosine_cluster": false,
+    "cosine_color": false,
+    "cosine_cluster": true,
     "n_components": 3,
     "alpha":1,
     "ptsize": 1,
     "selected_cosines": true,
     "plot_watch_full": false,
-    "plot_watch_results":true
+    "plot_watch_results":true,
+    "plot_gt": false,
+    "plot_set": true
 }
