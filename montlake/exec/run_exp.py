@@ -30,7 +30,7 @@ def parse_args(args):
 def subset_data(hparams):
 
     nsub = hparams.n
-    file_type = hparams.raw_data[-3:]
+    file_type = str(hparams.raw_data[-3:])
     if file_type == "mat":
         data = scipy.io.loadmat(hparams.raw_data)
         n = data['R'].shape[0]

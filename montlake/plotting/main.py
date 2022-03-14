@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 
 # Cell
 import matplotlib.pyplot as plt
-from .manifolds import plot_manifold_2d, plot_manifold_3d,plot_manifold_featurespace
+from .manifolds import plot_manifold_2d, plot_manifold_3d,plot_manifold_featurespace,plot_manifold_3d_set
 from .plotting import plot_cosines, get_cmap,get_names, plot_cosines_cluster
-from .flasso import plot_reg_path_ax_lambdasearch_customcolors_norm,plot_watch_custom, plot_watch,plot_cos_boxes
+from .flasso import plot_reg_path_ax_lambdasearch_customcolors_norm,plot_watch_custom, plot_watch,plot_cos_boxes, plot_reg_path_ax_lambdasearch_customcolors
 import dill as pickle
 import pathos
 from ..utils.utils import data_stream_custom_range, cosine_similarity
@@ -18,9 +18,11 @@ from pathos.multiprocessing import ProcessingPool as Pool
 from ..atomgeom.features import get_features
 from ..utils.utils import get_atoms4_full, get_index_matching, get_cosines
 from ..utils.replicates import get_detected_values2d
+from ..statistics.supportrecovery import get_min_min, get_mu_full_ind, get_kappa_s, get_gamma_max
 import numpy as np
 import itertools
 import seaborn as sns
+
 from matplotlib.patches import Rectangle
 
 def plot_experiment(result_file,
@@ -34,7 +36,7 @@ def plot_experiment(result_file,
                     color_counts_all = None,
                     name_counts_all = None,
                     colors_gt = None,
-                    names_gt = None,
+                    #names_gt = None,
                     cosine_cluster = False,
                    cosine_color = False,
                     gt_reg_color = False,
@@ -45,7 +47,10 @@ def plot_experiment(result_file,
                     ncord = 6,
                    selected_cosines = False,
                    plot_watch_full = False,
-                   plot_watch_results = False):
+                   plot_watch_results = False,
+                   names_gt_plot = None,
+                   plot_gt = False,
+                   plot_set = True):
 
 
 
@@ -54,7 +59,9 @@ def plot_experiment(result_file,
         results = pickle.load(inp, pickle.HIGHEST_PROTOCOL)
 
     atoms4 = results['dictionary']['atoms4']
-
+    dg_M = results['replicates_small'][0].dg_M
+    n = dg_M.shape[0]
+    m = n_components
     p = results['replicates_small'][0].dg_M.shape[2]
     nreps = results['supports_lasso'][1].shape[0]
     embed = results['embed']
@@ -72,23 +79,31 @@ def plot_experiment(result_file,
         values_gt = np.vstack([np.hstack(gt_results[i]) for i in range(n)])
 
     print('getting ground truth names')
-    if names_gt is None and ground_truth is not None:
+    #if names_gt is None and ground_truth is not None:
+    if ground_truth is not None:
         natoms = positions.shape[1]
         #atoms4 = np.asarray(list(itertools.combinations(range(natoms), 4)))
         superset = results['dictionary']['atoms4']#get_atoms4_full(atoms4) #needs adjustment for diagram dictionaries
-        j1 = get_index_matching(ground_truth['atoms4'][0], superset) #needs adjustment for non torsion ground truths
-        j2 = get_index_matching(ground_truth['atoms4'][1], superset)
-        gt_ind = [j1,j2]
-        names_gt = get_names(np.asarray(gt_ind))
+        if d == 2:
+            j1 = get_index_matching(ground_truth['atoms4'][0], superset) #needs adjustment for non torsion ground truths
+            j2 = get_index_matching(ground_truth['atoms4'][1], superset)
+            gt_ind = [j1,j2]
+            names_gt = get_names(np.asarray(gt_ind))
+        if d ==1:
+            j1 = get_index_matching(ground_truth['atoms4'][0], superset)
+            gt_ind = [j1]
+            names_gt = get_names(np.asarray(gt_ind))
 
-    if ground_truth is not None:
-        print('plotting ground truth function values')
-        for k in range(len(gt_ind)):
-            title = names_gt[k] +' ' +  str(atoms4[gt_ind[k]] + 1)
+    if plot_gt:
+        print('plotting ground truth function values', names_gt_plot)
+        for k in range(len(names_gt_plot)):
+            title = r'$g_{{{}}}$'.format(names_gt_plot[k])# + ' ' +  str(atoms4[gt_ind[k]] + 1)
             if n_components == 3:
                 plot_manifold_3d(embed, ptsize, alpha, values_gt[:,k], title,title_color = colors_gt[k])#, title_color = colors[s])
             if n_components == 2:
                 plot_manifold_2d(embed, ptsize, alpha, values_gt[:,k], title,title_color = colors_gt[k])
+            plt.savefig(outdir + '/gt_' + str(k))
+            plt.close()
 
     if ground_truth is None:
         gt_ind = []
@@ -125,20 +140,26 @@ def plot_experiment(result_file,
         fig, axes_all = plt.subplots(figsize=(15, 10))
         #colors = np.zeros((p,4))
         #colors[subset_l0_plusgt] = colors_l0_plusgt
-        plot_reg_path_ax_lambdasearch_customcolors_norm(axes_all, results['replicates_small'][0].cs_reorder, results['replicates_small'][0].xaxis_reorder / results['replicates_small'][0].xaxis_reorder.max() , fig,colors_all)#axes_all[0].imshow(asdf)
-        axes_all.set_title('Regularization path (single replicate)', fontsize = 40)
-        axes_all.set_ylabel(r'$||\beta_j||$', fontsize = 40)
-        axes_all.set_xticklabels([])
+        #plot_reg_path_ax_lambdasearch_customcolors_norm(axes_all, results['replicates_small'][0].cs_reorder * np.sqrt(m*n), results['replicates_small'][0].xaxis_reorder / results['replicates_small'][0].xaxis_reorder.max() , fig,colors_all)#axes_all[0].imshow(asdf)
+        plot_reg_path_ax_lambdasearch_customcolors_norm(axes_all, results['replicates_small'][0].cs_reorder, results['replicates_small'][0].xaxis_reorder * np.sqrt(m*n), fig,colors_all)#axes_all[0].imshow(asdf)
+        axes_all.set_xlim(left = 0, right = results['replicates_small'][0].xaxis_reorder.max() * np.sqrt(m*n))
+        axes_all.set_title('Regularization path (single replicate)', fontsize = 60)
+        axes_all.set_ylabel(r'$||\beta_j||$', fontsize = 60)
+        axes_all.set_xlabel(r'$\lambda$', fontsize = 60)
+        #axes_all.set_xticklabels([])
         plt.tight_layout()
         plt.savefig(outdir + '/reg_path_gt')
         plt.close()
 
     if sel_reg_color:
         fig, axes_all = plt.subplots(figsize=(15, 10))
-        plot_reg_path_ax_lambdasearch_customcolors_norm(axes_all, results['replicates_small'][0].cs_reorder, results['replicates_small'][0].xaxis_reorder / results['replicates_small'][0].xaxis_reorder.max() , fig,colors_lasso_full)#axes_all[0].imshow(asdf)
-        axes_all.set_title('Regularization path (single replicate)', fontsize = 40)
-        axes_all.set_ylabel(r'$||\beta_j||$', fontsize = 40)
-        axes_all.set_xticklabels([])
+        #plot_reg_path_ax_lambdasearch_customcolors_norm(axes_all, results['replicates_small'][0].cs_reorder * np.sqrt(m*n), results['replicates_small'][0].xaxis_reorder / results['replicates_small'][0].xaxis_reorder.max() , fig,colors_lasso_full)#axes_all[0].imshow(asdf)
+        plot_reg_path_ax_lambdasearch_customcolors_norm(axes_all, results['replicates_small'][0].cs_reorder , results['replicates_small'][0].xaxis_reorder * np.sqrt(m*n) , fig,colors_lasso_full)#axes_all[0].imshow(asdf)
+        axes_all.set_xlim(left = 0, right = results['replicates_small'][0].xaxis_reorder.max() * np.sqrt(m*n))
+        axes_all.set_title('Regularization path (single replicate)', fontsize = 60)
+        axes_all.set_ylabel(r'$||\beta_j||$', fontsize = 60)
+        axes_all.set_xlabel(r'$\lambda$', fontsize = 60)
+        #axes_all.set_xticklabels(axes_all.get_xticklabels()*np.sqrt(m*n))
         plt.tight_layout()
         plt.savefig(outdir + '/reg_path_sel')
         plt.close()
@@ -147,19 +168,29 @@ def plot_experiment(result_file,
         supports_lasso_values = np.vstack([np.hstack(results['supports_lasso_values'][i]) for i in range(n)])
         supports_ts_values = np.vstack([np.hstack(results['supports_ts_values'][i]) for i in range(n)])
         print('plotting selected function values', colors_ts.shape, supports_ts_values.shape)
-        #for s in range(len(results['selected_lasso'])):
+        if n_components == 3:
+            #for s in range(len(results['selected_lasso'])):
+            if plot_set:
+                plot_manifold_3d_set(data = embed, s = 10, alpha=.2, gb = supports_lasso_values, titles= results['dictionary']['atoms4'],sub= results['selected_lasso'], title_colors = colors_lasso)
+                plt.savefig(outdir + '/selected_function_lasso_all')
+                plt.close()
         for s in range(supports_lasso_values.shape[1]):
             c = supports_lasso_values[:,s]
             title_color = colors_lasso[s]
             title = names_lasso[s] + ' ' + str(atoms4[selected_lasso[s]] + 1)
-
             if n_components == 3:
                 plot_manifold_3d(embed, ptsize, alpha, c, title,title_color = title_color)#, title_color = colors[s])
             if n_components == 2:
                 plot_manifold_2d(embed, ptsize, alpha, c, title,title_color = title_color)#, colors[s])
             plt.savefig(outdir + '/selected_function_lasso_'+ str(s))
             plt.close()
-        #for s in range(len(results['selected_ts'])):
+
+        if n_components == 3:
+            if plot_set:
+            #for s in range(len(results['selected_ts'])):
+                plot_manifold_3d_set(data = embed, s = 10, alpha=.2, gb = supports_ts_values, titles= results['dictionary']['atoms4'],sub= results['selected_ts'], title_colors = colors_ts)
+                plt.savefig(outdir + '/selected_function_ts_all')
+                plt.close()
         for s in range(supports_ts_values.shape[1]):
             title_color = colors_ts[s]
             title = names_ts[s] + ' ' + str(atoms4[selected_ts[s]] + 1)
@@ -171,14 +202,36 @@ def plot_experiment(result_file,
             plt.savefig(outdir + '/selected_function_ts_' + str(s))
             plt.close()
 
+    if name_counts_all is None:
+        names_all = list(range(p))
+    else:
+        names_all = np.asarray(list([]), dtype =str)
+        for i in range(len(name_counts_all)):
+            for j in range(name_counts_all[i]):
+                names_all = np.hstack([names_all,(str(i+1) + ',' + str(j+1))])
+
     print("plotting watches")
     if plot_watch_full:
         p = results['supports_lasso'][0].shape[0]
         #print(results['supports_lasso'][0].shape, p,colors_all.shape)
         fig, axes_all = plt.subplots(figsize=(15, 10))
-        plot_watch_custom(results['supports_lasso'][0], p, axes_all,colors_all, nreps)
+        plot_watch_custom(results['supports_lasso'][0], p, axes_all,colors_all, nreps, names_all)
         plt.savefig(outdir + '/watch_full')
         plt.close()
+
+        fig, axes_all = plt.subplots(5,4,figsize = (45,30))
+        plot_reg_path_ax_lambdasearch_customcolors(axes_all[0], results['replicates_small'][0].cs_reorder, results['replicates_small'][0].xaxis_reorder * np.sqrt(m * n), fig,colors_all,names_all)
+        plot_reg_path_ax_lambdasearch_customcolors(axes_all[1], results['replicates_small'][1].cs_reorder, results['replicates_small'][1].xaxis_reorder * np.sqrt(m * n), fig,colors_all,names_all)
+        plot_reg_path_ax_lambdasearch_customcolors(axes_all[2], results['replicates_small'][2].cs_reorder, results['replicates_small'][2].xaxis_reorder * np.sqrt(m * n), fig,colors_all,names_all)
+        plot_reg_path_ax_lambdasearch_customcolors(axes_all[3], results['replicates_small'][3].cs_reorder, results['replicates_small'][3].xaxis_reorder * np.sqrt(m * n), fig,colors_all,names_all)
+        plot_reg_path_ax_lambdasearch_customcolors(axes_all[4], results['replicates_small'][4].cs_reorder, results['replicates_small'][4].xaxis_reorder * np.sqrt(m * n), fig,colors_all,names_all)
+        axes_all[0,0].set_ylabel('Replicate 1 \n' + r'$\|\beta_j\|$')
+        axes_all[1,0].set_ylabel('Replicate 2 \n' + r'$\|\beta_j\|$')
+        axes_all[2,0].set_ylabel('Replicate 3 \n' + r'$\|\beta_j\|$')
+        axes_all[3,0].set_ylabel('Replicate 4 \n' + r'$\|\beta_j\|$')
+        axes_all[4,0].set_ylabel('Replicate 5 \n' + r'$\|\beta_j\|$')
+        plt.savefig(outdir + '/first5reps_cords')
+
 
     if plot_watch_results:
         sub = results['supports_lasso'][0]
@@ -206,8 +259,7 @@ def plot_experiment(result_file,
             cosines_full= results['replicates_small'][0].cosine_abs
             print("plotting full cosine matrix colored",cosines_full.shape)
             fig, axes_all = plt.subplots(figsize=(15, 10))
-
-            plot_cosines(cosines_full, axes_all, colors_all)
+            plot_cosines(cosines_full, axes_all, colors_all, names_all)
             plt.tight_layout()
             plt.savefig(outdir + '/cosine_colored')
             plt.close()
@@ -221,24 +273,13 @@ def plot_experiment(result_file,
 
         if selected_cosines:
             print("plotting cosines of ground truth and selected lasso")
-            selected_lasso_gt = np.unique(np.concatenate((gt_ind, selected_lasso))) #add 234
-            #detected_values = get_detected_values2d(selected_lasso_gt, results['supports_lasso'][0],nreps)
+            selected_lasso_gt = np.concatenate((gt_ind, selected_lasso)) #add 234
             colors_lasso_plusgt = np.vstack([colors_gt, colors_lasso])
             names_lasso_plusgt = np.concatenate((names_gt, names_lasso))
             cuz_l = np.abs(get_cosines(results['replicates_small'][0].dg_M[:,:,selected_lasso_gt]))
             cuz_l0 = np.mean(cuz_l, axis = 0)
             fig, axarr = plt.subplots(figsize=(15, 10))
             plot_cos_boxes(results['supports_lasso'][1], names_lasso_plusgt, cuz_l0, selected_lasso_gt, d , nreps,axarr)
-#             sns.heatmap(cuz_l0, yticklabels = names_lasso_plusgt, xticklabels = names_lasso_plusgt, ax = axarr, vmin = 0., vmax = 1.)
-#             axarr.set_xticklabels(axarr.get_xmajorticklabels(), fontsize = 30)
-#             axarr.set_yticklabels(axarr.get_ymajorticklabels(), fontsize = 30)
-#             if d == 2:
-#                 for r in range(nreps):
-#                     axarr.add_patch(Rectangle((results['supports_lasso'][1][r,1], results['supports_lasso'][1][r,0]), 1, 1,facecolor = [0,1,0,0.], hatch = '/',fill= True, edgecolor='blue', lw=1))
-#                     axarr.add_patch(Rectangle((results['supports_lasso'][1][r,0], results['supports_lasso'][1][r,1]), 1, 1,facecolor = [0,1,0,0.], hatch = '/',fill= True, edgecolor='blue', lw=1))
-
-            #for d in range(detected_values.shape[1]):
-                #axarr.add_patch(Rectangle((detected_values[1,d], detected_values[0,d]), 1, 1,facecolor = [0,1,0,0.], hatch = '/',fill= True, edgecolor='blue', lw=1))
             for xtick, color in zip(axarr.get_xticklabels(), colors_lasso_plusgt):
                 xtick.set_color(color)
             for ytick, color in zip(axarr.get_yticklabels(), colors_lasso_plusgt):
@@ -251,25 +292,13 @@ def plot_experiment(result_file,
             plt.close()
 
             print("plotting cosines of ground truth and selected ts")
-            selected_ts_gt = np.unique(np.concatenate((gt_ind, selected_ts))) #add 234
-            #detected_values = get_detected_values2d(selected_ts_gt, results['supports_ts'],nreps)
+            selected_ts_gt = np.concatenate((gt_ind, selected_ts)) #add 234
             colors_ts_plusgt = np.vstack([colors_gt, colors_ts])
             names_ts_plusgt = np.concatenate((names_gt, names_ts))
             cuz_l = np.abs(get_cosines(results['replicates_small'][0].dg_M[:,:,selected_ts_gt]))
             cuz_l0 = np.mean(cuz_l, axis = 0)
             fig, axarr = plt.subplots(figsize=(15, 10))
             plot_cos_boxes(results['supports_ts'][1], names_ts_plusgt, cuz_l0, selected_ts_gt, d , nreps,axarr)
-#             fig, axarr = plt.subplots(figsize=(15, 10))
-#             sns.heatmap(cuz_l0, yticklabels = names_ts_plusgt, xticklabels = names_ts_plusgt, ax = axarr, vmin = 0., vmax = 1.)
-#             axarr.set_xticklabels(axarr.get_xmajorticklabels(), fontsize = 30)
-#             axarr.set_yticklabels(axarr.get_ymajorticklabels(), fontsize = 30)
-#             if d == 2:
-#                 for r in range(nreps):
-#                     axarr.add_patch(Rectangle((results['supports_ts'][1][r,1], results['supports_ts'][1][r,0]), 1, 1,facecolor = [0,1,0,0.], hatch = '/',fill= True, edgecolor='blue', lw=1))
-#                     axarr.add_patch(Rectangle((results['supports_ts'][1][r,0], results['supports_ts'][1][r,1]), 1, 1,facecolor = [0,1,0,0.], hatch = '/',fill= True, edgecolor='blue', lw=1))
-
-            #             for d in range(detected_values.shape[1]):
-#                 axarr.add_patch(Rectangle((detected_values[1,d], detected_values[0,d]), 1, 1,facecolor = [0,1,0,0.], hatch = '/',fill= True, edgecolor='blue', lw=1))
             for xtick, color in zip(axarr.get_xticklabels(), colors_ts_plusgt):
                 xtick.set_color(color)
             for ytick, color in zip(axarr.get_yticklabels(), colors_ts_plusgt):
@@ -281,14 +310,41 @@ def plot_experiment(result_file,
             plt.savefig(outdir + '/cosines_selts_gt')
             plt.close()
 
-    if d == 2:
+    #if d == 2:
+    if not plot_watch_full:
+
         print("getting correlations with ground truth")
         coses = np.zeros((nreps,d,d))
         for r in range(nreps):
             print(r)
+            j3 = int(results['supports_lasso'][1][r,0])
+            j4 = int(results['supports_lasso'][1][r,1])
 
-#             j1 = get_index_matching(ground_truth[0], superset)
-#             j1 = get_index_matching(ground_truth[1], superset)
+            rep = results['replicates_small'][0]
+            nsel = rep.dg_M.shape[0]
+            coses[r,0,0] = np.sum(np.abs(np.asarray([cosine_similarity(rep.dg_M[i,:,j1], rep.dg_M[i,:,j3]) for i in range(nsel)]))) / nsel
+            coses[r,0,1] = np.sum(np.abs(np.asarray([cosine_similarity(rep.dg_M[i,:,j1], rep.dg_M[i,:,j4]) for i in range(nsel)]))) / nsel
+            coses[r,1,0] = np.sum(np.abs(np.asarray([cosine_similarity(rep.dg_M[i,:,j2], rep.dg_M[i,:,j3]) for i in range(nsel)]))) / nsel
+            coses[r,1,1] = np.sum(np.abs(np.asarray([cosine_similarity(rep.dg_M[i,:,j2], rep.dg_M[i,:,j4]) for i in range(nsel)]))) / nsel
+            #pd.save('save')
+
+        coses_i = np.zeros((nreps,2))
+        for r in range(nreps):
+            mean1 = np.mean([coses[r, 0,1], coses[r, 1,0]])
+            mean2 = np.mean([coses[r, 0,0], coses[r, 1,1]])
+            betterpair = np.argmax([ mean1,mean2])
+            if betterpair == 0:
+                coses_i[r] = [coses[r, 0,1], coses[r, 1,0]]
+            else:
+                coses_i[r] = [coses[r, 1,1], coses[r, 0,0]]
+
+        print('lasso matched cos mean',np.mean(coses_i))
+        print('lasso matched cos var', np.var(coses_i)**(0.5))
+        print("getting correlations with ground truth")
+        coses = np.zeros((nreps,d,d))
+
+        for r in range(nreps):
+            print(r)
             j3 = results['supports_ts'][1][r,0]
             j4 = results['supports_ts'][1][r,1]
 
@@ -298,4 +354,32 @@ def plot_experiment(result_file,
             coses[r,0,1] = np.sum(np.abs(np.asarray([cosine_similarity(rep.dg_M[i,:,j1], rep.dg_M[i,:,j4]) for i in range(nsel)]))) / nsel
             coses[r,1,0] = np.sum(np.abs(np.asarray([cosine_similarity(rep.dg_M[i,:,j2], rep.dg_M[i,:,j3]) for i in range(nsel)]))) / nsel
             coses[r,1,1] = np.sum(np.abs(np.asarray([cosine_similarity(rep.dg_M[i,:,j2], rep.dg_M[i,:,j4]) for i in range(nsel)]))) / nsel
-            #pd.save('save')
+
+        coses_i = np.zeros((nreps,2))
+        for r in range(nreps):
+            mean1 = np.mean([coses[r, 0,1], coses[r, 1,0]])
+            mean2 = np.mean([coses[r, 0,0], coses[r, 1,1]])
+            betterpair = np.argmax([ mean1,mean2])
+            if betterpair == 0:
+                coses_i[r] = [coses[r, 0,1], coses[r, 1,0]]
+            else:
+                coses_i[r] = [coses[r, 1,1], coses[r, 0,0]]
+
+        print('ts matched cos mean',np.mean(coses_i))
+        print('ts matched cos var', np.var(coses_i)**(0.5))
+
+    min_mins = np.zeros(nreps, dtype = np.float64)
+    mus = np.zeros(nreps, dtype = np.float64)
+    kappas = np.zeros(nreps, dtype = np.float64)
+    gamma_maxs = np.zeros(nreps, dtype = np.float64)
+    for r in range(nreps):
+        dg_M = results['replicates_small'][r].dg_M
+        min_mins[r]  = get_min_min(dg_M[:,:,gt_ind])
+        mus[r] = get_mu_full_ind(np.swapaxes(dg_M,1,2), gt_ind)
+        kappas[r] = get_kappa_s(dg_M[:,:,gt_ind])
+        gamma_maxs[r] = get_gamma_max(dg_M[:,:,gt_ind])
+
+    print("min min mean, std", np.mean(min_mins), np.var(min_mins)**0.5)
+    print("mu mean, std", np.mean(mus), np.var(mus)**0.5)
+    print("kappa mean, std", np.mean(kappas), np.var(kappas)**0.5)
+    print("gamma_max mean, std", np.mean(gamma_maxs), np.var(gamma_maxs)**0.5)
