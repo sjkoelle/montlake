@@ -32,11 +32,11 @@ python -u -m montlake.exec.run_exp --config $ROOT_DIR/experiments/configs/malona
 python -u -m montlake.exec.run_exp --config $ROOT_DIR/experiments/configs/ethanol_full.json --outdir $DATA_DIR/processed_data/eth_full_mflasso_122221 --raw_data $DATA_DIR/raw_data/ethanol.mat --nreps 25 --mflasso --name eth_full_mflasso_122221
 python -u -m montlake.exec.run_exp --config $ROOT_DIR/experiments/configs/toluene_diagram.json --outdir $DATA_DIR/processed_data/tol_diagram_mflasso_122221 --raw_data $DATA_DIR/raw_data/toluene.mat --nreps 25 --mflasso --name tol_diagram_mflasso_122221
 
-python -m montlake.exec.plotting --config $ROOT_DIR/montlake/experiments/configs_plotting/jmlr/eth_full_mf_jmlr.json
-python -m montlake.exec.plotting --config $ROOT_DIR/montlake/experiments/configs_plotting/jmlr/eth_diagram_mf_jmlr.json
-python -m montlake.exec.plotting --config $ROOT_DIR/montlake/experiments/configs_plotting/jmlr/tol_diagram_mf_jmlr.json
-python -m montlake.exec.plotting --config $ROOT_DIR/montlake/experiments/configs_plotting/jmlr/mal_full_mf_jmlr.json
-python -m montlake.exec.plotting --config $ROOT_DIR/montlake/experiments/configs_plotting/jmlr/mal_diagram_mf_jmlr.json
+python -m montlake.exec.plotting --config $ROOT_DIR/experiments/configs_plotting/jmlr/eth_full_mf_jmlr.json
+python -m montlake.exec.plotting --config $ROOT_DIR/experiments/configs_plotting/jmlr/eth_diagram_mf_jmlr.json
+python -m montlake.exec.plotting --config $ROOT_DIR/experiments/configs_plotting/jmlr/tol_diagram_mf_jmlr.json
+python -m montlake.exec.plotting --config $ROOT_DIR/experiments/configs_plotting/jmlr/mal_full_mf_jmlr.json
+python -m montlake.exec.plotting --config $ROOT_DIR/experiments/configs_plotting/jmlr/mal_diagram_mf_jmlr.json
 
 ```
 
