@@ -1,7 +1,7 @@
 {
-    "result_file": "/Users/samsonkoelle/thesis_data/processed_data_2/rigidethanol_012422/re_nonoise_diagram_tsresults_tslasso",
-    "outdir": "/Users/samsonkoelle/mani-samk-gradients/Figures/tslasso/rigidethanol_012422_nonoise",
-    "position_file": "/Users/samsonkoelle/thesis_data/processed_data_2/rigidethanol_012422/positionsre_nonoise_diagram_ts.npy",
+    "result_file": "/Users/samsonkoelle/thesis_data/processed_data_2/rigidethanol_012422/re_p01_diagram_tsresults_tslasso",
+    "outdir": "/Users/samsonkoelle/mani-samk-gradients/Figures/tslasso/rigidethanol_012422_p01",
+    "position_file": "/Users/samsonkoelle/thesis_data/processed_data_2/rigidethanol_012422/positionsre_p01_diagram_ts.npy",
     "d": 2,
     "name": "Rigid Ethanol",
     "ncord": 6,
