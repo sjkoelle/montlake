@@ -6,7 +6,7 @@ It also contains differentiable shape featurizations including interpoint distan
 It uses embedding and tangent estimation components of the megaman package.
 
 # Installation
-You can install Montlake into Python directly from the command line without cloning the repository. 
+You can install Montlake into Python directly from the command line without cloning the repository. We recommend the use of [Anaconda](www.anaconda.com).
 
 ```
 conda create -n 'montlake' python=3.6
@@ -17,7 +17,7 @@ pip install git+git://github.com/sjkoelle/montlake/
 
 # Usage
 
-After installation, code from the experiments folder can be used recreate results from Manifold Coordinates with Physical Meaning (https://arxiv.org/abs/1811.11891).
+After installation, code from the experiments folder can be used recreate results from [Manifold Coordinates with Physical Meaning] (https://arxiv.org/abs/1811.11891).
 Individual analyses are parameterized in experiments/configs and can be called from the command line.
 
 ```
