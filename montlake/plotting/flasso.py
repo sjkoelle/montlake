@@ -172,7 +172,7 @@ def plot_reg_path_ax_lambdasearch_customcolors_norm(ax, coeffs, xaxis, fig, colo
     ax.grid(True, which="both", alpha=True)
 
 
-def plot_watch_custom(to_plot, p, ax, colors,nreps, names = None, s=.1):
+def plot_watch_custom(to_plot, p, ax, colors,nreps, names = None, s=.1, fontsize = 70):
 
     if names is None:
         names = np.asarray(list(range(p)), dtype = str)
@@ -197,7 +197,7 @@ def plot_watch_custom(to_plot, p, ax, colors,nreps, names = None, s=.1):
         ax.text(x=1.1 * np.cos(angles[j]),
                 y=1.1 * np.sin(angles[j]),
                 s=r"$g_{{{}}}$".format(nm), color=colors[j],  # cmap.colors[j],
-                fontdict={'fontsize': 70},
+                fontdict={'fontsize': fontsize},
                 horizontalalignment='center',
                 verticalalignment='center')
 
@@ -247,7 +247,7 @@ def plot_watch(to_plot, names, colors, ax,nreps):
         ax.text(x=1.1 * np.cos(angles[j]),
                 y=1.1 * np.sin(angles[j]),
                 s=names[j], color=colors[j],
-                fontdict={'fontsize': 40},
+                fontdict={'fontsize': 60},
                 horizontalalignment='center',
                 verticalalignment='center')
 

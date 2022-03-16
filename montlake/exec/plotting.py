@@ -103,7 +103,8 @@ if __name__ == "__main__" and not IN_NOTEBOOK:
                     cosine_color = hparams.cosine_color,
                     selected_cosines = hparams.selected_cosines,
                     cosine_cluster = hparams.cosine_cluster,
-                    plot_set = hparams.plot_set
+                    plot_set = hparams.plot_set,
+                    wheel_font = hparams.wheel_font,
                    )
 
 

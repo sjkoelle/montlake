@@ -26,5 +26,6 @@
     "ptsize": 1,
     "selected_cosines": false,
     "plot_gt": true,
-    "plot_set": false
+    "plot_set": false,
+    "wheel_font":50
 }

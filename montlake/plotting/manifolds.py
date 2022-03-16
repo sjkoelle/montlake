@@ -110,15 +110,22 @@ def plot_manifold_featurespace(data,title,ncord = 6):
                 axes[e,d].set_ylim(xmins[e], xmaxs[e])
                 axes[e,d].set_xticks(xticks)
                 axes[e,d].set_yticks(yticks)
-
+                axes[e,d].tick_params(labelsize=20)
+                #NOTE (Sam) - this disappears the labels for some reason
+                #plt.draw()
+                #axes[e,d].set_xticklabels(axes[e,d].get_xticklabels(), fontsize= 30)
+                #axes[e,d].set_yticklabels(axes[e,d].get_yticklabels(), fontsize= 30)
             if d == e:
 
                 axes[d,e].hist(data[:,d])
                 axes[e,d].set_xticks(xticks)
+                axes[e,d].tick_params(labelsize=20)
+                #plt.draw()
+                #axes[e,d].set_xticklabels(axes[e,d].get_xticklabels(), fontsize= 30)
 
     for d in range(ncord):
-        axes[ncord- 1,d].set_xlabel(r'$\xi_{{{}}}$'.format(d), fontsize= 30)
-        axes[d,0].set_ylabel(r'$\xi_{{{}}}$'.format(d), fontsize= 30)
+        axes[ncord- 1,d].set_xlabel(r'$\xi_{{{}}}$'.format(d), fontsize= 50)
+        axes[d,0].set_ylabel(r'$\xi_{{{}}}$'.format(d), fontsize= 50)
 
     fig = plt.gcf()
     fig.suptitle(title, fontsize=70)
@@ -163,7 +170,7 @@ def plot_manifold_3d_set(data, s, alpha, gb, titles,sub, title_colors):
         ax.set_xticks([xmin, xmax])
         ax.set_yticks([ymin, ymax])
         ax.set_zticks([zmin, zmax])
-        ax.tick_params(labelsize=20)
+        ax.tick_params(labelsize=40)
 
         ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
         ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))

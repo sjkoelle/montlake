@@ -50,7 +50,8 @@ def plot_experiment(result_file,
                    plot_watch_results = False,
                    names_gt_plot = None,
                    plot_gt = False,
-                   plot_set = True):
+                   plot_set = True,
+                   wheel_font = 70):
 
 
 
@@ -215,7 +216,7 @@ def plot_experiment(result_file,
         p = results['supports_lasso'][0].shape[0]
         #print(results['supports_lasso'][0].shape, p,colors_all.shape)
         fig, axes_all = plt.subplots(figsize=(15, 10))
-        plot_watch_custom(results['supports_lasso'][0], p, axes_all,colors_all, nreps, names_all)
+        plot_watch_custom(results['supports_lasso'][0], p, axes_all,colors_all, nreps, names_all, fontsize= wheel_font)
         plt.savefig(outdir + '/watch_full')
         plt.close()
 

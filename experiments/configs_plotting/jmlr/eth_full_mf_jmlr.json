@@ -24,5 +24,7 @@
     "selected_cosines": true,
     "plot_watch_full": false,
     "plot_watch_results":true,
-    "plot_gt": false
+    "plot_gt": false,
+    "wheel_font":70,
+    "plot_set":true
 }

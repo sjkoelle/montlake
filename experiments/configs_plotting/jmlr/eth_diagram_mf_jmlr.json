@@ -24,5 +24,7 @@
     "alpha":1,
     "ptsize": 1,
     "selected_cosines": false,
-    "plot_gt": true
+    "plot_gt": true,
+    "wheel_font":70,
+    "plot_set":false
 }
