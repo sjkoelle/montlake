@@ -12,7 +12,7 @@ You can install Montlake into Python directly from the command line without clon
 conda create -n 'montlake' python=3.6
 source activate montlake
 conda install --channel=conda-forge -y pip nose coverage cython numpy scipy scikit-learn pyflann pyamg h5py plotly
-pip install https+git://github.com/sjkoelle/montlake/
+pip install git+https://github.com/sjkoelle/montlake/
 ```
 
 # Usage
