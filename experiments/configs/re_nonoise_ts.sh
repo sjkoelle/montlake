@@ -11,6 +11,6 @@
 export PATH="~/anaconda3/bin:$PATH"
 source activate montlake
 cd ~/montlake
-python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/rigidethanol_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data_2/rigidethanol --raw_data /homes/sjkoelle/thesis_data/raw_data/rigidethanol_nonoise.npy --nreps 25 --tslasso --name re_nonoise_diagram_ts
+python -u -m montlake.exec.run_exp --config /homes/sjkoelle/montlake/experiments/configs/rigidethanol_diagram.json --outdir /homes/sjkoelle/thesis_data/processed_data_2/rigidethanol_012422 --raw_data /homes/sjkoelle/thesis_data/raw_data/rigidethanol_nonoise.npy --nreps 25 --tslasso --name re_nonoise_diagram_ts
 source deactivate
 echo "end"
