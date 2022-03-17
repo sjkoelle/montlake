@@ -1,7 +1,7 @@
 {
-    "result_file": "/Users/samsonkoelle/thesis_data/processed_data/ethanol/eth_full_tslasso500_122221/eth_full_tslasso500_122221results_tslasso",
-    "outdir": "/Users/samsonkoelle/thesis_data/plots/ethanol/ts_full_500_122221",
-    "position_file": "/Users/samsonkoelle/thesis_data/processed_data/ethanol/eth_full_tslasso500_122221/positionseth_full_tslasso500_122221.npy",
+    "result_file": "/Users/samsonkoelle/thesis_data/processed_data/ethanol/eth_full_mflasso_122221/eth_full_mflasso_122221results_mflasso",
+    "outdir": "/Users/samsonkoelle/thesis_data/plots/ethanol/mf_full_122221",
+    "position_file": "/Users/samsonkoelle/thesis_data/processed_data/ethanol/eth_full_mflasso_122221/positionseth_full_mflasso_122221.npy",
     "d": 2,
     "name": "Ethanol",
     "ncord": 6,

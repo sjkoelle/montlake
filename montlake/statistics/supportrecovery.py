@@ -97,6 +97,3 @@ def get_min_min(dg_M):
 def get_gamma_max(dg_M):
     output = np.sum(np.sum(dg_M ** 2, axis=1), axis=0).max()
     return (output)
-
-#def get_gamma_max():
-

@@ -1,6 +1,6 @@
 {
     "result_file": "/Users/samsonkoelle/thesis_data/processed_data/malonaldehyde/mal_full_mflasso_122221/mal_fullresults_mflasso",
-    "outdir": "/Users/samsonkoelle/thesis_data/plots/malonaldehyde/mf_full_122221",
+    "outdir": "/Users/samsonkoelle/mani-samk-gradients/Figures/jmlr_minorrevision/mal_full_122221",
     "position_file": "/Users/samsonkoelle/thesis_data/processed_data/malonaldehyde/mal_full_mflasso_122221/positionsmal_full.npy",
     "d": 2,
     "name": "Malonaldehyde",
@@ -13,6 +13,7 @@
     "colors_id_all": [[0,0,1,1], [1,0.64,0,1]],
     "color_counts_all": null,
     "name_counts_all": null,
+    "names_gt_plot":[1,2],
     "sel_reg_color": true,
     "gt_reg_color": false,
     "cosine_color": false,
@@ -23,5 +24,8 @@
     "ptsize": 1,
     "selected_cosines": true,
     "plot_watch_full": false,
-    "plot_watch_results":true
+    "plot_watch_results":true,
+    "plot_gt": false,
+    "plot_set": true,
+    "wheel_font":70
 }

@@ -113,7 +113,7 @@ def get_names(subset):
 
 
 
-def plot_cosines(cosines, ax, colors):
+def plot_cosines(cosines, ax, colors, names):
     p = cosines.shape[0]
     sns.heatmap(cosines, ax=ax, vmin=0., vmax=1.)
     #    ax = sns.heatmap(x, cmap=cmap)
@@ -126,8 +126,11 @@ def plot_cosines(cosines, ax, colors):
         xtick.set_color(color)
     for ytick, color in zip(ax.get_yticklabels(), colors):
         ytick.set_color(color)
-    ax.set_xticklabels(ax.get_xmajorticklabels(), fontsize=500 / p)
-    ax.set_yticklabels(ax.get_ymajorticklabels(), fontsize=500 / p)
+    #ax.set_xticklabels(ax.get_xmajorticklabels(), fontsize=500 / p)
+    #ax.set_yticklabels(ax.get_ymajorticklabels(), fontsize=500 / p)
+    ax.set_xticklabels(names, fontsize=500 / p)
+    #ax.set_yticklabels(names, fontsize=500 / p, rotation = 90)
+    ax.set_yticklabels(names, fontsize=500 / p, rotation = 0)
 
     ax.set_ylabel(r"$g_{j'}$", fontsize=70)
     ax.set_xlabel(r"$g_{j}$", fontsize=70)

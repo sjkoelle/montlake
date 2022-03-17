@@ -1,7 +1,7 @@
 {
-    "result_file": "/Users/samsonkoelle/thesis_data/processed_data_2/malonaldehyde/mal_full_ts_500results_tslasso",
-    "outdir": "/Users/samsonkoelle/thesis_data/plots/malonaldehyde_full/ts_500",
-    "position_file": "/Users/samsonkoelle/thesis_data/processed_data_2/malonaldehyde/positionsmal_full_ts.npy",
+    "result_file": "/Users/samsonkoelle/thesis_data/processed_data/malonaldehyde/mal_full_tslasso500_122221/mal_full_tslasso500_122221results_tslasso",
+    "outdir": "/Users/samsonkoelle/thesis_data/plots/malonaldehyde_full/ts_500_122221",
+    "position_file": "/Users/samsonkoelle/thesis_data/processed_data/malonaldehyde/mal_full_tslasso500_122221/positionsmal_full_tslasso500_122221.npy",
     "d": 2,
     "name": "Malonaldehyde",
     "ncord": 6,
