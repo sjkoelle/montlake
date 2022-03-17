@@ -1,9 +1,0 @@
-{
-    "molecule": "ethanol",
-    "run_name": "featurize_ethanol",
-    "raw_data": "/Users/samsonkoelle/thesis_data/raw_data/ethanol.mat",
-    "out_folder": "/Users/samsonkoelle/thesis_data/processed_data/ethanol/",
-    "atoms2": false,
-    "atoms3": true,
-    "atoms4": false
-}

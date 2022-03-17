@@ -1,8 +1,0 @@
-{
-    "run_name": "svdembed_ethanol",
-    "in_data": "/Users/samsonkoelle/thesis_data/processed_data/ethanol/ethanol_atoms3.npy",
-    "out_folder": "/Users/samsonkoelle/thesis_data/processed_data/ethanol/",
-	"radius" : 0.177,
-	"n_neighbors" : 1000,
-	"n_components" : 3
-}
