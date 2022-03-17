@@ -34,8 +34,6 @@ scp -r sjkoelle@warthog.stat.washington.edu:~/thesis_data/processed_data/tol_dia
 scp -r sjkoelle@warthog.stat.washington.edu:~/thesis_data/processed_data/tol_diagram_tslasso_122221 ~/thesis_data/processed_data/toluene
 
 #downloading
-
-
 #ran
 
 python -m montlake.exec.plotting --config /Users/samsonkoelle/tunatostada/experiments/configs_plotting/jmlr/eth_full_mf_jmlr.json
