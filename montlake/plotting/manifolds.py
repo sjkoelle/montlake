@@ -24,17 +24,19 @@ def plot_manifold_2d(data, s, alpha, c, title, title_color = 'black'):
     ax = fig.add_subplot(1,1,1)
 
     ax.scatter(x, y,  s=s, alpha=alpha, marker='.',vmin=0,vmax=np.pi, c=c )
-    ax.set_xlabel(r'$\phi_1$', fontsize = 60)
-    ax.set_ylabel(r'$\phi_2$', fontsize = 60)
-    ax.set_title(title, fontsize = 80, color= title_color)
+    ax.set_xlabel(r'$\phi_1$', fontsize = 120)
+    ax.set_ylabel(r'$\phi_2$', fontsize = 120, labelpad = -30)
+    ax.set_title(title, fontsize = 150, color= title_color)
 
     xmin = np.float(np.format_float_positional(data[:, 0][selected_points].min(), precision=2, fractional=False))
     xmax = np.float(np.format_float_positional(data[:, 0][selected_points].max(), precision=2, fractional=False))
     ymin = np.float(np.format_float_positional(data[:, 1][selected_points].min(), precision=2, fractional=False))
     ymax = np.float(np.format_float_positional(data[:, 1][selected_points].max(), precision=2, fractional=False))
-    ax.set_xticks([xmin, xmax])
-    ax.set_yticks([ymin, ymax])
-    ax.tick_params(labelsize=30)
+#     ax.set_xticks([xmin, xmax])
+#     ax.set_yticks([ymin, ymax])
+    ax.set_xticks([])
+    ax.set_yticks([])
+    #ax.tick_params(labelsize=30)
 
 # Cell
 def plot_manifold_3d(data, s, alpha, c, title, title_color = 'black'):
@@ -49,10 +51,10 @@ def plot_manifold_3d(data, s, alpha, c, title, title_color = 'black'):
 
     ax = fig.add_subplot(1,1,1, projection='3d')
     ax.scatter(x, y, z, s=s,c = c, alpha=alpha, marker='.',vmin=0,vmax=np.pi)
-    ax.set_xlabel(r'$\phi_1$', fontsize = 60)
-    ax.set_ylabel(r'$\phi_2$', fontsize = 60)
-    ax.set_zlabel(r'$\phi_3$', fontsize = 60)
-    ax.set_title(title, fontsize = 80, color = title_color)
+    ax.set_xlabel(r'$\phi_1$', fontsize = 90)
+    ax.set_ylabel(r'$\phi_2$', fontsize = 90)
+    ax.set_zlabel(r'$\phi_3$', fontsize = 90)
+    ax.set_title(title, fontsize = 150, color = title_color)
 
     xmin = np.float(np.format_float_positional(data[:, 0][selected_points].min(), precision=2, fractional=False))
     xmax = np.float(np.format_float_positional(data[:, 0][selected_points].max(), precision=2, fractional=False))
@@ -61,10 +63,13 @@ def plot_manifold_3d(data, s, alpha, c, title, title_color = 'black'):
     zmin = np.float(np.format_float_positional(data[:, 2][selected_points].min(), precision=2, fractional=False))
     zmax = np.float(np.format_float_positional(data[:, 2][selected_points].max(), precision=2, fractional=False))
 
-    ax.set_xticks([xmin, xmax])
-    ax.set_yticks([ymin, ymax])
-    ax.set_zticks([zmin, zmax])
-    ax.tick_params(labelsize=30)
+    #ax.set_xticks([xmin, xmax])
+    #ax.set_yticks([ymin, ymax])
+    #ax.set_zticks([zmin, zmax])
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_zticks([])
+    #ax.tick_params(labelsize=30)
     ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
     ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
     ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))

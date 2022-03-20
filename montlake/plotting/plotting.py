@@ -96,23 +96,6 @@ def get_names(subset):
         names[s] = r"$g_{{{}}}$".format(subset[s])
     return(names)
 
-# sns.set(font_scale=2)
-# f, axarr = plt.subplots(1,1, figsize=(10, 10))
-# #[ax.set_axis_off() for ax in axarr.ravel()]
-# sns.heatmap(rep.cos[clustermap.dendrogram_col.reordered_ind][:,clustermap.dendrogram_col.reordered_ind], ax = axarr)
-# axarr.set_title(r"$\frac{1}{n'} \sum_{i = 1}^{n'} \frac{ | \langle grad_{\mathcal M} g_j (\xi_i) ,grad_{\mathcal M} g_{j'} (\xi_i)\rangle}{\|grad_{\mathcal M} g_i (\xi_i) \| \| grad_{\mathcal M} g_j(\xi_i) \|} $" ,
-#                 fontsize = 30)
-# axarr.set_xticklabels([])
-# axarr.set_yticklabels([])
-# axarr.set_xticks([])
-# axarr.set_yticks([])
-# axarr.set_xlabel(r'$g_j$', fontsize= 50)
-# axarr.set_ylabel(r"$g_{j'}$", fontsize= 50)
-# plt.tight_layout()
-# #plt.savefig('/Users/samsonkoelle/Downloads/manigrad-100818/mani-samk-gradients/Figures/figure_for_jmlr/eth_fulldict_cosines')
-
-
-
 def plot_cosines(cosines, ax, colors, names):
     p = cosines.shape[0]
     sns.heatmap(cosines, ax=ax, vmin=0., vmax=1.)
@@ -120,7 +103,7 @@ def plot_cosines(cosines, ax, colors, names):
     # use matplotlib.colorbar.Colorbar object
     cbar = ax.collections[0].colorbar
     # here set the labelsize by 20
-    cbar.ax.tick_params(labelsize=20)
+    cbar.ax.tick_params(labelsize=60)
 
     for xtick, color in zip(ax.get_xticklabels(), colors):
         xtick.set_color(color)
@@ -132,12 +115,12 @@ def plot_cosines(cosines, ax, colors, names):
     #ax.set_yticklabels(names, fontsize=500 / p, rotation = 90)
     ax.set_yticklabels(names, fontsize=500 / p, rotation = 0)
 
-    ax.set_ylabel(r"$g_{j'}$", fontsize=70)
-    ax.set_xlabel(r"$g_{j}$", fontsize=70)
+    ax.set_ylabel(r"$g_{j'}$", fontsize=90)
+    ax.set_xlabel(r"$g_{j}$", fontsize=90)
     # ax.set_title(r"$\text{hi}$")
     ax.set_title(
         r"$\frac{1}{n'} \sum_{i = 1}^{n'} \frac{ |\langle grad_{\mathcal M} g_j (\xi_i) ,grad_{\mathcal M} g_{j'} (\xi_i)\rangle|}{\|grad_{\mathcal M} g_j (\xi_i) \| \| grad_{\mathcal M} g_{j'}(\xi_i) \|}$",
-        fontsize=70)
+        fontsize=80)
 
 # Cell
 def plot_cosines_cluster(cos):
@@ -147,16 +130,17 @@ def plot_cosines_cluster(cos):
     clustermap.ax_col_dendrogram.set_visible(False)
 
     sns.set(font_scale=2)
-    f, axarr = plt.subplots(1,1, figsize=(10, 10))
-    #[ax.set_axis_off() for ax in axarr.ravel()]
-    sns.heatmap(cos[clustermap.dendrogram_col.reordered_ind][:,clustermap.dendrogram_col.reordered_ind], ax = axarr)
+    f, axarr = plt.subplots(1,1, figsize=(15, 15))
+    sns.heatmap(cos[clustermap.dendrogram_col.reordered_ind][:,clustermap.dendrogram_col.reordered_ind], ax = axarr, vmin = 0., vmax = 1.)
     axarr.set_title(r"$\frac{1}{n'} \sum_{i = 1}^{n'} \frac{ | \langle grad_{\mathcal M} g_j (\xi_i) ,grad_{\mathcal M} g_{j'} (\xi_i)\rangle}{\|grad_{\mathcal M} g_i (\xi_i) \| \| grad_{\mathcal M} g_j(\xi_i) \|} $" ,
-                    fontsize = 30)
+                    fontsize = 80,pad = 50)
     axarr.set_xticklabels([])
     axarr.set_yticklabels([])
     axarr.set_xticks([])
     axarr.set_yticks([])
-    axarr.set_xlabel(r'$g_j$', fontsize= 50)
-    axarr.set_ylabel(r"$g_{j'}$", fontsize= 50)
+    axarr.set_xlabel(r'$g_j$', fontsize= 90)
+    axarr.set_ylabel(r"$g_{j'}$", fontsize= 90)
+    cbar = axarr.collections[0].colorbar
+    cbar.ax.tick_params(labelsize=60)
     plt.tight_layout()
     #plt.savefig('/Users/samsonkoelle/Downloads/manigrad-100818/mani-samk-gradients/Figures/figure_for_jmlr/eth_fulldict_cosines')

@@ -27,5 +27,5 @@
     "plot_watch_results":true,
     "plot_gt": false,
     "plot_set": true,
-    "wheel_font":70
+    "wheel_font":150
 }

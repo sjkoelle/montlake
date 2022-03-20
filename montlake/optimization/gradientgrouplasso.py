@@ -219,7 +219,7 @@ def get_sr_lambda_parallel(df_M, dg_M, gl_itermax,reg_l2, max_search, card, tol,
 
     if n_comp == card:
         #high_int = probe
-        print('we did it',np.where(~np.isclose(combined_norms[probe_init_high],0.,1e-12))[0])
+        print('Selected functions',np.where(~np.isclose(combined_norms[probe_init_high],0.,1e-12))[0])
         return (probe_init_high, coeffs, combined_norms)
 
     if n_comp < card:
@@ -244,7 +244,7 @@ def get_sr_lambda_parallel(df_M, dg_M, gl_itermax,reg_l2, max_search, card, tol,
         n_comp = len(np.where(~np.isclose(combined_norms[probe],0.,1e-12))[0])
         if n_comp == card:
             #high_int = probe
-            print('we did it',np.where(~np.isclose(combined_norms[probe],0.,1e-12))[0])
+            print('Selected functions',np.where(~np.isclose(combined_norms[probe],0.,1e-12))[0])
             return(probe, coeffs, combined_norms)
         else:
             if n_comp < card:
@@ -256,7 +256,7 @@ def get_sr_lambda_parallel(df_M, dg_M, gl_itermax,reg_l2, max_search, card, tol,
             else:
                 probe = lowprobes.max() * 2
             if i == max_search - 1:
-                print('we failed')
+                print('Failed to select d functions')
                 return(probe, coeffs, combined_norms)
 
 def batch_stream(replicates):
