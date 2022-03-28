@@ -9,7 +9,7 @@
     "ground_truth": {"atoms2": null,
                     "atoms3": null, 
                     "atoms4" : [[9,0,1,2]]},
-    "ground_truth_colors": [[0,0,1,1]],
+    "ground_truth_colors": [[1,0.64,0,1]],
     "colors_id_all": [[1,0.64,0,1],[0,0,1,1],[0,0,1,1],[0,0,1,1],[0,0,1,1],[0,0,1,1],[0,0,1,1]],
     "color_counts_all": [6,4,4,4,4,4,4],
     "name_counts_all": [6,4,4,4,4,4,4],
@@ -27,5 +27,5 @@
     "selected_cosines": false,
     "plot_gt": true,
     "plot_set": false,
-    "wheel_font":90
+    "wheel_font":75
 }

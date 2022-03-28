@@ -65,8 +65,8 @@ def plot_reg_path_ax_lambdasearch_customcolors_names(axes, coeffs, xaxis, fig, c
     xax.sort()
 
     for k in range(1 + q):
-        axes[k].tick_params(labelsize=50)
-        axes[k].set_xscale('symlog')
+        axes[k].tick_params(labelsize=80)
+        #axes[k].set_xscale('symlog')
         axes[k].set_yscale('symlog')
         axes[k].set_ylim(bottom=0, top=normax)
         if (k == 0):
@@ -75,17 +75,17 @@ def plot_reg_path_ax_lambdasearch_customcolors_names(axes, coeffs, xaxis, fig, c
         if k != 0:
             axes[k].set_yticklabels([])
         if k != q:
-            axes[k + 1].set_title(names[k], fontsize=70)
+            axes[k + 1].set_title(names[k], fontsize=140)
             # axes[k + 1].set_title(r"$\phi_{{{}}}$.format(k)")
         if k == 0:
-            axes[k].set_title("Combined", fontdict={'fontsize': 90})
+            axes[k].set_title("Combined", fontdict={'fontsize': 140})
     for k in range(1 + q):
         axes[k].grid(True, which="both", alpha=True)
-        axes[k].set_xlabel(r"$\lambda$", fontsize=90)
+        axes[k].set_xlabel(r"$\lambda$", fontsize=140)
         #axes[k].set_xticklabels([])
         #axes[k].set_xticks([])
 
-    axes[0].set_ylabel(r"$||\beta_j||$", fontsize=90)
+    axes[0].set_ylabel(r"$||\beta_j||$", fontsize=140)
 
 
 def plot_reg_path_ax_lambdasearch_customcolors_tslasso(axes, coeffs, xaxis, fig, colors, names):
@@ -107,7 +107,7 @@ def plot_reg_path_ax_lambdasearch_customcolors_tslasso(axes, coeffs, xaxis, fig,
     xax.sort()
 
     axes.tick_params(labelsize=50)
-    axes.set_xscale('symlog')
+    #axes.set_xscale('symlog')
     axes.set_yscale('symlog')
     axes.set_ylim(bottom=0, top=normax)
 
@@ -169,8 +169,8 @@ def plot_watch_custom(to_plot, p, ax, colors,nreps, names = None, s=.1, fontsize
     for j in range(p):
         nm = names[j]
         ax.scatter(np.cos(angles[j]), np.sin(angles[j]), color=cmap.colors[j], marker='x')
-        ax.text(x=1.2 * np.cos(angles[j]),
-                y=1.2 * np.sin(angles[j]),
+        ax.text(x=1.15 * np.cos(angles[j]),
+                y=1.15 * np.sin(angles[j]),
                 s=r"$g_{{{}}}$".format(nm), color=colors[j],  # cmap.colors[j],
                 fontdict={'fontsize': fontsize},
                 horizontalalignment='center',
@@ -209,8 +209,8 @@ def plot_watch(to_plot, names, colors, ax,nreps):
 
     for j in range(p):
         ax.scatter(np.cos(angles[j]), np.sin(angles[j]), color=colors[j], marker='x')
-        ax.text(x=1.3 * np.cos(angles[j]),
-                y=1.3 * np.sin(angles[j]),
+        ax.text(x=1.2 * np.cos(angles[j]),
+                y=1.2 * np.sin(angles[j]),
                 s=names[j], color=colors[j],
                 fontdict={'fontsize': 100},
                 horizontalalignment='center',
@@ -265,7 +265,7 @@ def plot_reg_path_ax_lambdasearch_customcolors(axes, coeffs, xaxis,fig, colors,g
 
     for k in range(1 + q):
         axes[k].tick_params(labelsize=50)
-        axes[k].set_xscale('symlog')
+        #axes[k].set_xscale('symlog')
         axes[k].set_yscale('symlog')
         axes[k].set_ylim(bottom=0, top=normax)
         if (k == 0):

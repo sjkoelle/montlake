@@ -13,7 +13,7 @@ import numpy as np
 import numpy as np
 
 def plot_manifold_2d(data, s, alpha, c, title, title_color = 'black'):
-    fig, axs = plt.subplots(1,1, figsize = (15,10))
+    fig, axs = plt.subplots(1,1, figsize = (20,15))
 
     axs.set_axis_off()
     s = 1
@@ -24,9 +24,9 @@ def plot_manifold_2d(data, s, alpha, c, title, title_color = 'black'):
     ax = fig.add_subplot(1,1,1)
 
     ax.scatter(x, y,  s=s, alpha=alpha, marker='.',vmin=0,vmax=np.pi, c=c )
-    ax.set_xlabel(r'$\phi_1$', fontsize = 120)
-    ax.set_ylabel(r'$\phi_2$', fontsize = 120, labelpad = -30)
-    ax.set_title(title, fontsize = 150, color= title_color)
+    ax.set_xlabel(r'$\phi_1$', fontsize = 140)
+    ax.set_ylabel(r'$\phi_2$', fontsize = 140)
+    ax.set_title(title, fontsize = 200, color= title_color)
 
     xmin = np.float(np.format_float_positional(data[:, 0][selected_points].min(), precision=2, fractional=False))
     xmax = np.float(np.format_float_positional(data[:, 0][selected_points].max(), precision=2, fractional=False))
@@ -36,6 +36,8 @@ def plot_manifold_2d(data, s, alpha, c, title, title_color = 'black'):
 #     ax.set_yticks([ymin, ymax])
     ax.set_xticks([])
     ax.set_yticks([])
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
     #ax.tick_params(labelsize=30)
 
 # Cell
@@ -161,9 +163,9 @@ def plot_manifold_3d_set(data, s, alpha, gb, titles,sub, title_colors):
         #fig = plt.figure(figsize=(15,10))
         #ax = fig.add_subplot(1, 1, 1, projection='3d')
         ax.scatter(x, y, z, c = gb[:,r], s=s, alpha=alpha, marker='.',vmin=0,vmax=np.pi)
-        ax.set_xlabel(r'$\phi_1$', fontsize = 30)
-        ax.set_ylabel(r'$\phi_2$', fontsize = 30)
-        ax.set_zlabel(r'$\phi_3$', fontsize = 30)
+        ax.set_xlabel(r'$\phi_1$', fontsize = 60)
+        ax.set_ylabel(r'$\phi_2$', fontsize = 60)
+        ax.set_zlabel(r'$\phi_3$', fontsize = 60)
         ax.set_title(r'$g_{{{}}}$'.format(sub[r]) + ' ' + str(titles[sub[r]]+1), fontsize = 60, color = title_colors[r])
         #ax.set_axis_off()
         xmin = np.float(np.format_float_positional(data[:, 0][selected_points].min(), precision=2, fractional=False))
@@ -172,9 +174,15 @@ def plot_manifold_3d_set(data, s, alpha, gb, titles,sub, title_colors):
         ymax = np.float(np.format_float_positional(data[:, 1][selected_points].max(), precision=2, fractional=False))
         zmin = np.float(np.format_float_positional(data[:, 2][selected_points].min(), precision=2, fractional=False))
         zmax = np.float(np.format_float_positional(data[:, 2][selected_points].max(), precision=2, fractional=False))
-        ax.set_xticks([xmin, xmax])
-        ax.set_yticks([ymin, ymax])
-        ax.set_zticks([zmin, zmax])
+#         ax.set_xticks([xmin, xmax])
+#         ax.set_yticks([ymin, ymax])
+#         ax.set_zticks([zmin, zmax])
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_zticks([])
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        ax.set_zticklabels([])
         ax.tick_params(labelsize=40)
 
         ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))

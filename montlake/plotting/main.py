@@ -210,17 +210,26 @@ def plot_experiment(result_file,
         plt.savefig(outdir + '/watch_full')
         plt.close()
 
-        fig, axes_all = plt.subplots(5,4,figsize = (45,30))
+        fig, axes_all = plt.subplots(5,4,figsize = (45,45))
         plot_reg_path_ax_lambdasearch_customcolors(axes_all[0], results['replicates_small'][0].cs_reorder, results['replicates_small'][0].xaxis_reorder * np.sqrt(m * n), fig,colors_all,names_all)
         plot_reg_path_ax_lambdasearch_customcolors(axes_all[1], results['replicates_small'][1].cs_reorder, results['replicates_small'][1].xaxis_reorder * np.sqrt(m * n), fig,colors_all,names_all)
         plot_reg_path_ax_lambdasearch_customcolors(axes_all[2], results['replicates_small'][2].cs_reorder, results['replicates_small'][2].xaxis_reorder * np.sqrt(m * n), fig,colors_all,names_all)
         plot_reg_path_ax_lambdasearch_customcolors(axes_all[3], results['replicates_small'][3].cs_reorder, results['replicates_small'][3].xaxis_reorder * np.sqrt(m * n), fig,colors_all,names_all)
         plot_reg_path_ax_lambdasearch_customcolors(axes_all[4], results['replicates_small'][4].cs_reorder, results['replicates_small'][4].xaxis_reorder * np.sqrt(m * n), fig,colors_all,names_all)
-        axes_all[0,0].set_ylabel('Replicate 1 \n' + r'$\|\beta_j\|$')
-        axes_all[1,0].set_ylabel('Replicate 2 \n' + r'$\|\beta_j\|$')
-        axes_all[2,0].set_ylabel('Replicate 3 \n' + r'$\|\beta_j\|$')
-        axes_all[3,0].set_ylabel('Replicate 4 \n' + r'$\|\beta_j\|$')
-        axes_all[4,0].set_ylabel('Replicate 5 \n' + r'$\|\beta_j\|$')
+        for i in range(4):
+            for j in range(4):
+                axes_all[i][j].set_xlabel('')
+        for i in range(4):
+            for j in range(4):
+                axes_all[i+1][j].set_title('')
+        for i in range(5):
+            for j in range(3):
+                axes_all[i][j+1].set_ylabel('')
+        axes_all[0,0].set_ylabel('Replicate 1 \n' + r'$\|\beta_j\|$', fontsize = 100)
+        axes_all[1,0].set_ylabel('Replicate 2 \n' + r'$\|\beta_j\|$', fontsize = 100)
+        axes_all[2,0].set_ylabel('Replicate 3 \n' + r'$\|\beta_j\|$', fontsize = 100)
+        axes_all[3,0].set_ylabel('Replicate 4 \n' + r'$\|\beta_j\|$', fontsize = 100)
+        axes_all[4,0].set_ylabel('Replicate 5 \n' + r'$\|\beta_j\|$', fontsize = 100)
         plt.savefig(outdir + '/first5reps_cords')
 
 
