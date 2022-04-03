@@ -14,14 +14,18 @@ source activate montlake
 conda install --channel=conda-forge -y pip nose coverage cython numpy seaborn scipy scikit-learn pyflann pyamg h5py plotly
 pip install git+https://github.com/sjkoelle/montlake/
 conda install nb_conda_kernels
+python -m ipykernel install --user --name montlake --display-name "Python (montlake)”
 ```
 
-You may also need to install libmagic (e.g. ```brew install libmagic```) and run
+# Troubleshooting
+You may also need to install libmagic (e.g. ```brew install libmagic```), install pip (```conda install pip```), or install ipykernel (```pip install ipykernel```).
+If you are still having issues installing using pip, clone the repository (```git clone git@github.com:sjkoelle/montlake.git```) and run
 
 ```
 cd montlake
 nbdev_build_lib
 ```
+
 If there is a compatibility issue with `nb_conda_kernels`, which may result in failure of installation of jupyter notebook, you can also try the following to install Montlake.
 
 ```
@@ -36,8 +40,10 @@ pip install git+https://github.com/sjkoelle/montlake/
 
 # Usage
 
-After installation, code from the experiments folder can be used recreate results from [Manifold Coordinates with Physical Meaning](https://arxiv.org/abs/1811.11891). Individual analyses are parameterized in experiments/configs and can be called from the command line.
-Please set ROOT_DIR to your Montlake path and DATA_DIR to a directory containing the data [here](https://drive.google.com/drive/folders/1xsBe4JMRXPZ7ISB_IM0MSRkeVuImFmuq?usp=sharing). Please cite [this paper](https://www.nature.com/articles/s41467-018-06169-2) if you use this data.
+After installation, clone the repository (```git clone git@github.com:sjkoelle/montlake.git```).
+Code from the experiments subfolder can be used recreate results from [Manifold Coordinates with Physical Meaning](https://arxiv.org/abs/1811.11891). 
+Individual analyses are parameterized in experiments/configs and can be called from the command line.
+Please set ROOT_DIR to your Montlake path and DATA_DIR to a directory containing the data (which can be downloaded [here](https://drive.google.com/drive/folders/1xsBe4JMRXPZ7ISB_IM0MSRkeVuImFmuq?usp=sharing)). Please cite [this paper](https://www.nature.com/articles/s41467-018-06169-2) if you use this data.
 
 Please use the following commands to set paths.
 
