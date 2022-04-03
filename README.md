@@ -40,8 +40,10 @@ pip install git+https://github.com/sjkoelle/montlake/
 
 # Usage
 
-After installation, code from the experiments folder can be used recreate results from [Manifold Coordinates with Physical Meaning](https://arxiv.org/abs/1811.11891). Individual analyses are parameterized in experiments/configs and can be called from the command line.
-Please set ROOT_DIR to your Montlake path and DATA_DIR to a directory containing the data [here](https://drive.google.com/drive/folders/1xsBe4JMRXPZ7ISB_IM0MSRkeVuImFmuq?usp=sharing). Please cite [this paper](https://www.nature.com/articles/s41467-018-06169-2) if you use this data.
+After installation, clone the repository.
+Code from the experiments subfolder can be used recreate results from [Manifold Coordinates with Physical Meaning](https://arxiv.org/abs/1811.11891). 
+Individual analyses are parameterized in experiments/configs and can be called from the command line.
+Please set ROOT_DIR to your Montlake path and DATA_DIR to a directory containing the data (which can be downloaded [here](https://drive.google.com/drive/folders/1xsBe4JMRXPZ7ISB_IM0MSRkeVuImFmuq?usp=sharing)). Please cite [this paper](https://www.nature.com/articles/s41467-018-06169-2) if you use this data.
 
 Please use the following commands to set paths.
 
