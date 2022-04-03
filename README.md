@@ -18,7 +18,8 @@ python -m ipykernel install --user --name montlake --display-name "Python (montl
 ```
 
 # Troubleshooting
-You may also need to install libmagic (e.g. ```brew install libmagic```), install pip (```conda install pip```), install ipykernel (```pip install ipykernel```) and run
+You may also need to install libmagic (e.g. ```brew install libmagic```), install pip (```conda install pip```), or install ipykernel (```pip install ipykernel```).
+If you are still having issues installing using pip, clone the repository and run
 
 ```
 cd montlake
