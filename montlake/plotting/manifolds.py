@@ -90,8 +90,7 @@ def plot_manifold_featurespace(data,title,ncord = 6):
 
     s = 100
     alpha = .5
-    fig, axes = plt.subplots(ncord,ncord, figsize = (25,25))
-
+    fig, axes = plt.subplots(ncord,ncord, figsize = (40,40))
     xmins = np.zeros(ncord)
     xmaxs = np.zeros(ncord)
     xmeans = np.zeros(ncord)
@@ -109,40 +108,48 @@ def plot_manifold_featurespace(data,title,ncord = 6):
     for d in range(ncord):
         print(d)
         for e in range(ncord):
-            xticks = list(range(math.ceil(xmins[d]), math.ceil(xmaxs[d])))
-            yticks = list(range(math.ceil(xmins[e]), math.ceil(xmaxs[e])))
+            xticks = [math.ceil(xmins[d]), 0 ,math.ceil(xmaxs[d])]
+            yticks = [math.ceil(xmins[e]), 0 ,math.ceil(xmaxs[e])]
             if d != e:
                 axes[e,d].scatter(data[:,d],data[:,e], s = .1, alpha = .1)
                 axes[e,d].set_xlim(xmins[d], xmaxs[d])
                 axes[e,d].set_ylim(xmins[e], xmaxs[e])
-                axes[e,d].set_xticks(xticks)
-                axes[e,d].set_yticks(yticks)
-                axes[e,d].tick_params(labelsize=20)
-                #NOTE (Sam) - this disappears the labels for some reason
-                #plt.draw()
-                #axes[e,d].set_xticklabels(axes[e,d].get_xticklabels(), fontsize= 30)
-                #axes[e,d].set_yticklabels(axes[e,d].get_yticklabels(), fontsize= 30)
+
+                if d == 0:
+                    #axes[e,d].set_xticks(xticks)
+                    axes[e,d].set_yticks(yticks)
+                else:
+                    axes[e,d].set_yticks([])
+                if e == (ncord-1):
+                    axes[e,d].set_xticks(xticks)
+                else:
+                    axes[e,d].set_xticks([])
+                axes[e,d].tick_params(labelsize=60)
             if d == e:
 
                 axes[d,e].hist(data[:,d])
-                axes[e,d].set_xticks(xticks)
-                axes[e,d].tick_params(labelsize=20)
-                #plt.draw()
-                #axes[e,d].set_xticklabels(axes[e,d].get_xticklabels(), fontsize= 30)
+                axes[e,d].tick_params(labelsize=50)
+                axes[e,d].tick_params(labelsize=50)
+                if e == (ncord-1):
+                    axes[e,d].set_xticks(xticks)
+                else:
+                    axes[e,d].set_xticks([])
 
     for d in range(ncord):
-        axes[ncord- 1,d].set_xlabel(r'$\xi_{{{}}}$'.format(d), fontsize= 50)
-        axes[d,0].set_ylabel(r'$\xi_{{{}}}$'.format(d), fontsize= 50)
+        axes[ncord- 1,d].set_xlabel(r'$\xi_{{{}}}$'.format(d+1), fontsize= 110)
+        axes[d,0].set_ylabel(r'$\xi_{{{}}}$'.format(d+1), fontsize= 110)
 
+    plt.tight_layout()
     fig = plt.gcf()
-    fig.suptitle(title, fontsize=70)
+    fig.subplots_adjust(top=0.9)
+    fig.suptitle(title,y=.95,x = .53, fontsize=120)
 
 
 
 
 # Cell
 
-def plot_manifold_3d_set(data, s, alpha, gb, titles,sub, title_colors):
+def plot_manifold_3d_set(data, s, alpha, gb, titles,sub, title_colors, title):
 
     nb = len(sub)
 
@@ -159,9 +166,6 @@ def plot_manifold_3d_set(data, s, alpha, gb, titles,sub, title_colors):
     for r in range(nb):
         print(r)
         ax = fig.add_subplot(math.floor(nb / 4)+1, 4 ,r+1, projection='3d')
-        #ax = fig.add_subplot(nb,1, r+1, projection='3d')
-        #fig = plt.figure(figsize=(15,10))
-        #ax = fig.add_subplot(1, 1, 1, projection='3d')
         ax.scatter(x, y, z, c = gb[:,r], s=s, alpha=alpha, marker='.',vmin=0,vmax=np.pi)
         ax.set_xlabel(r'$\phi_1$', fontsize = 60)
         ax.set_ylabel(r'$\phi_2$', fontsize = 60)
@@ -174,9 +178,6 @@ def plot_manifold_3d_set(data, s, alpha, gb, titles,sub, title_colors):
         ymax = np.float(np.format_float_positional(data[:, 1][selected_points].max(), precision=2, fractional=False))
         zmin = np.float(np.format_float_positional(data[:, 2][selected_points].min(), precision=2, fractional=False))
         zmax = np.float(np.format_float_positional(data[:, 2][selected_points].max(), precision=2, fractional=False))
-#         ax.set_xticks([xmin, xmax])
-#         ax.set_yticks([ymin, ymax])
-#         ax.set_zticks([zmin, zmax])
         ax.set_xticks([])
         ax.set_yticks([])
         ax.set_zticks([])
@@ -192,4 +193,8 @@ def plot_manifold_3d_set(data, s, alpha, gb, titles,sub, title_colors):
         ax.xaxis._axinfo["grid"]['color'] =  (1,1,1,0)
         ax.yaxis._axinfo["grid"]['color'] =  (1,1,1,0)
         ax.zaxis._axinfo["grid"]['color'] =  (1,1,1,0)
-    #plt.savefig('/Users/samsonkoelle/Downloads/manigrad-100818/mani-samk-gradients/Figures/figure_for_jmlr/mal_mf_gs')
+
+    #plt.tight_layout()
+    fig = plt.gcf()
+    fig.subplots_adjust(top=0.9)
+    fig.suptitle(title,y=.95,x = .53, fontsize=80)

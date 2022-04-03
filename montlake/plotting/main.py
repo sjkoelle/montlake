@@ -22,7 +22,7 @@ from ..statistics.supportrecovery import get_min_min, get_mu_full_ind, get_kappa
 import numpy as np
 import itertools
 import seaborn as sns
-
+import pdb
 from matplotlib.patches import Rectangle
 
 def plot_experiment(result_file,
@@ -129,12 +129,20 @@ def plot_experiment(result_file,
 
     print('plotting top coordinates in feature space')
     data = results['data']
-    title = name + ' top PCA'
+    title = name
     plot_manifold_featurespace(data,title,ncord)
     plt.savefig(outdir + '/features')
     plt.close()
 
     print('plotting sample regularization path')
+    selection_lambda = np.zeros(nreps)
+    prune_lambda = np.zeros(nreps)
+    for r in range(nreps):
+        rep = results['replicates_small'][r]
+        #NOTE (Sam) - min necessary for numerical reasons
+        selection_lambda[r] = rep.xaxis_reorder[np.where(np.asarray(np.linalg.norm(rep.cs_reorder, axis = tuple([1,2])), dtype = bool).sum(axis = 1) == d)[0]].min()
+        prune_lambda[r] = rep.xaxis_reorder[1]
+
     if gt_reg_color:
         fig, axes_all = plt.subplots(figsize=(15, 15))
         plot_reg_path_ax_lambdasearch_customcolors_norm(axes_all, results['replicates_small'][0].cs_reorder, results['replicates_small'][0].xaxis_reorder * np.sqrt(m*n), fig,colors_all)#axes_all[0].imshow(asdf)
@@ -142,6 +150,8 @@ def plot_experiment(result_file,
         axes_all.set_title('Regularization path', fontsize = 80)
         axes_all.set_ylabel(r'$||\beta_j||$', fontsize = 100)
         axes_all.set_xlabel(r'$\lambda$', fontsize = 100)
+        axes_all.axvline(selection_lambda[0]* np.sqrt(m*n), linewidth = 5, color = 'black')
+#         axes_all.text(,x = selection_lambda[0], y = 1)
         plt.tight_layout()
         plt.savefig(outdir + '/reg_path_gt')
         plt.close()
@@ -153,8 +163,20 @@ def plot_experiment(result_file,
         axes_all.set_title('Regularization path', fontsize = 80)
         axes_all.set_ylabel(r'$||\beta_j||$', fontsize = 100)
         axes_all.set_xlabel(r'$\lambda$', fontsize = 100)
+        axes_all.axvline(selection_lambda[0]* np.sqrt(m*n), linewidth = 5, color = 'black')
         plt.tight_layout()
         plt.savefig(outdir + '/reg_path_sel')
+        plt.close()
+
+        fig, axes_all = plt.subplots(figsize=(15, 15))
+        plot_reg_path_ax_lambdasearch_customcolors_norm(axes_all, results['replicates_small'][0].cs_reorder , results['replicates_small'][0].xaxis_reorder * np.sqrt(m*n) , fig,colors_lasso_full)#axes_all[0].imshow(asdf)
+        axes_all.set_xlim(left = 0, right = results['replicates_small'][0].xaxis_reorder.max() * np.sqrt(m*n))
+        axes_all.set_title('Regularization path', fontsize = 80)
+        axes_all.set_ylabel(r'$||\beta_j||$', fontsize = 100)
+        axes_all.set_xlabel(r'$\lambda$', fontsize = 100)
+        axes_all.axvline(prune_lambda[0]* np.sqrt(m*n), linewidth = 5, color = 'black')
+        plt.tight_layout()
+        plt.savefig(outdir + '/reg_path_sel_prune')
         plt.close()
 
     if embedding:
@@ -163,7 +185,7 @@ def plot_experiment(result_file,
         print('plotting selected function values', colors_ts.shape, supports_ts_values.shape)
         if n_components == 3:
             if plot_set:
-                plot_manifold_3d_set(data = embed, s = 10, alpha=.2, gb = supports_lasso_values, titles= results['dictionary']['atoms4'],sub= results['selected_lasso'], title_colors = colors_lasso)
+                plot_manifold_3d_set(data = embed, s = 10, alpha=.2, gb = supports_lasso_values, titles= results['dictionary']['atoms4'],sub= results['selected_lasso'], title_colors = colors_lasso, title= name)
                 plt.savefig(outdir + '/selected_function_lasso_all')
                 plt.close()
         for s in range(supports_lasso_values.shape[1]):
@@ -179,7 +201,7 @@ def plot_experiment(result_file,
 
         if n_components == 3:
             if plot_set:
-                plot_manifold_3d_set(data = embed, s = 10, alpha=.2, gb = supports_ts_values, titles= results['dictionary']['atoms4'],sub= results['selected_ts'], title_colors = colors_ts)
+                plot_manifold_3d_set(data = embed, s = 10, alpha=.2, gb = supports_ts_values, titles= results['dictionary']['atoms4'],sub= results['selected_ts'], title_colors = colors_ts, title = name)
                 plt.savefig(outdir + '/selected_function_ts_all')
                 plt.close()
         for s in range(supports_ts_values.shape[1]):
@@ -230,6 +252,9 @@ def plot_experiment(result_file,
         axes_all[2,0].set_ylabel('Replicate 3 \n' + r'$\|\beta_j\|$', fontsize = 100)
         axes_all[3,0].set_ylabel('Replicate 4 \n' + r'$\|\beta_j\|$', fontsize = 100)
         axes_all[4,0].set_ylabel('Replicate 5 \n' + r'$\|\beta_j\|$', fontsize = 100)
+        fig = plt.gcf()
+        fig.subplots_adjust(top=0.9)
+        fig.suptitle(name,y=.95,x = .53, fontsize=80)
         plt.savefig(outdir + '/first5reps_cords')
 
 

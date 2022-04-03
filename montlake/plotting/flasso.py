@@ -34,15 +34,14 @@ def plot_cos_boxes(sup_sel, names, col, sel, d , nreps, axarr):
         for r in range(nreps):
             pos1 = np.where(sel == sup_sel[r,1])[0]
             pos2 =  np.where(sel == sup_sel[r,0])[0]
-            axarr.add_patch(Rectangle((pos1, pos2), 1, 1,facecolor = [0,1,0,0.], hatch = '/',fill= True, edgecolor='blue', lw=5))
-            axarr.add_patch(Rectangle((pos2, pos1), 1, 1,facecolor = [0,1,0,0.], hatch = '/',fill= True, edgecolor='blue', lw=5))
+            axarr.add_patch(Rectangle((pos1, pos2), 1, 1,facecolor = [0,0,1,0.], hatch = '/',fill= True, edgecolor='green', lw=5))
+            axarr.add_patch(Rectangle((pos2, pos1), 1, 1,facecolor = [0,0,1,0.], hatch = '/',fill= True, edgecolor='green', lw=5))
 
 
 def plot_reg_path_ax_lambdasearch_customcolors_names(axes, coeffs, xaxis, fig, colors, names):
     p = coeffs.shape[3]
     q = coeffs.shape[1]
     gnames = np.asarray(list(range(p)), dtype=str)
-
 
     rcParams['axes.titlesize'] = 30
     plt.rc('text', usetex=True)
@@ -61,12 +60,11 @@ def plot_reg_path_ax_lambdasearch_customcolors_names(axes, coeffs, xaxis, fig, c
         axes[0].plot(xaxis, toplot, 'go--', linewidth=10, markersize=0, alpha=.5,
                      color=colors[j], label=gnames[j])
 
-    xax = xaxis.copy()
-    xax.sort()
+#     xax = xaxis.copy()
+#     xax.sort()
 
     for k in range(1 + q):
         axes[k].tick_params(labelsize=80)
-        #axes[k].set_xscale('symlog')
         axes[k].set_yscale('symlog')
         axes[k].set_ylim(bottom=0, top=normax)
         if (k == 0):
@@ -75,15 +73,12 @@ def plot_reg_path_ax_lambdasearch_customcolors_names(axes, coeffs, xaxis, fig, c
         if k != 0:
             axes[k].set_yticklabels([])
         if k != q:
-            axes[k + 1].set_title(names[k], fontsize=140)
-            # axes[k + 1].set_title(r"$\phi_{{{}}}$.format(k)")
+            axes[k + 1].set_title(names[k], fontsize=100)
         if k == 0:
             axes[k].set_title("Combined", fontdict={'fontsize': 140})
     for k in range(1 + q):
         axes[k].grid(True, which="both", alpha=True)
         axes[k].set_xlabel(r"$\lambda$", fontsize=140)
-        #axes[k].set_xticklabels([])
-        #axes[k].set_xticks([])
 
     axes[0].set_ylabel(r"$||\beta_j||$", fontsize=140)
 
@@ -107,7 +102,6 @@ def plot_reg_path_ax_lambdasearch_customcolors_tslasso(axes, coeffs, xaxis, fig,
     xax.sort()
 
     axes.tick_params(labelsize=50)
-    #axes.set_xscale('symlog')
     axes.set_yscale('symlog')
     axes.set_ylim(bottom=0, top=normax)
 
@@ -216,9 +210,6 @@ def plot_watch(to_plot, names, colors, ax,nreps):
                 horizontalalignment='center',
                 verticalalignment='center')
 
-#         ax.text(x=.9 * np.cos(angles[j]), y=.9 * np.sin(angles[j]), s=str(totes[j] / nreps), fontdict={'fontsize': 30},
-#                 horizontalalignment='center',
-#                 verticalalignment='center')
 
     for j in range(p):
         ax.scatter(np.cos(angles[j]), np.sin(angles[j]), color=colors[j], marker='o', s=100 * totes[j])
@@ -230,11 +221,6 @@ def plot_watch(to_plot, names, colors, ax,nreps):
                 y_values = [np.sin(angles[j]), np.sin(angles[i])]
                 ax.plot(x_values, y_values, linewidth=to_plot[i, j], color='black')
 
-#                 if to_plot[i, j] > 0:
-#                     ax.text(x=np.mean(x_values),
-#                             y=np.mean(y_values),
-#                             s=str(to_plot[i, j] / nreps),
-#                             fontdict={'fontsize': 20})
 
     ax.set_aspect(1)
     ax.set_axis_off()
@@ -265,7 +251,6 @@ def plot_reg_path_ax_lambdasearch_customcolors(axes, coeffs, xaxis,fig, colors,g
 
     for k in range(1 + q):
         axes[k].tick_params(labelsize=50)
-        #axes[k].set_xscale('symlog')
         axes[k].set_yscale('symlog')
         axes[k].set_ylim(bottom=0, top=normax)
         if (k == 0):
@@ -274,21 +259,21 @@ def plot_reg_path_ax_lambdasearch_customcolors(axes, coeffs, xaxis,fig, colors,g
         if k != 0:
             axes[k].set_yticklabels([])
         if k != q:
-            axes[k+1].set_title(r"$\phi_{{{}}}$".format(k+1), fontsize = 50)
+            axes[k+1].set_title(r"$\phi_{{{}}}$".format(k+1), fontsize = 100)
         if k == 0:
-            axes[k].set_title("Combined", fontdict={'fontsize': 50})
+            axes[k].set_title("Combined", fontdict={'fontsize': 100})
     for k in range(1 + q):
         axes[k].grid(True, which="both", alpha=True)
-        axes[k].set_xlabel(r"$\lambda$", fontsize = 50)
+        axes[k].set_xlabel(r"$\lambda$", fontsize = 100)
 
     axes[0].set_ylabel(r"$\|\beta\|$", fontsize = 50)
 
     handles, labels = axes[0].get_legend_handles_labels()
     by_label = OrderedDict(zip(labels, handles))
-    fig.subplots_adjust(right=0.75)
-    leg_ax = fig.add_axes([.8, 0.15, 0.05, 0.7])
+    fig.subplots_adjust(right=0.85)
+    leg_ax = fig.add_axes([.9, 0.15, 0.05, 0.7])
     leg_ax.axis('off')
-    leg = leg_ax.legend(by_label.values(), gnames, prop={'size': 300 / p})
+    leg = leg_ax.legend(by_label.values(), gnames, prop={'size': 600 / p})
     for l in leg.get_lines():
         l.set_alpha(1)
-    leg_ax.set_title("$g_{j}$", fontsize = 1000/p)
+    leg_ax.set_title("$g_{j}$", fontsize = 1500/p)
