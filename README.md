@@ -14,14 +14,17 @@ source activate montlake
 conda install --channel=conda-forge -y pip nose coverage cython numpy seaborn scipy scikit-learn pyflann pyamg h5py plotly
 pip install git+https://github.com/sjkoelle/montlake/
 conda install nb_conda_kernels
+python -m ipykernel install --user --name montlake --display-name "Python (montlake)”
 ```
 
-You may also need to install libmagic (e.g. ```brew install libmagic```) and run
+# Troubleshooting
+You may also need to install libmagic (e.g. ```brew install libmagic```), install pip (```conda install pip```), install ipykernel (```pip install ipykernel```) and run
 
 ```
 cd montlake
 nbdev_build_lib
 ```
+
 If there is a compatibility issue with `nb_conda_kernels`, which may result in failure of installation of jupyter notebook, you can also try the following to install Montlake.
 
 ```
