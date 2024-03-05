@@ -44,7 +44,7 @@ After installation, clone the repository (```git clone git@github.com:sjkoelle/m
 
 ## Real Data Experiments
 
-Code from the experiments subfolder can be used recreate the MDS experiment results from [Manifold Coordinates with Physical Meaning](https://arxiv.org/abs/1811.11891) and [Consistency of dictionary-based Manifold Learning](). 
+Code from the experiments subfolder can be used recreate the MDS experiments results from [Manifold Coordinates with Physical Meaning](https://arxiv.org/abs/1811.11891) and [Consistency of dictionary-based Manifold Learning](). 
 
 Individual analyses are parameterized in experiments/configs and can be called from the command line.
 Please set ROOT_DIR to your Montlake path and DATA_DIR to a directory containing the data (which can be downloaded [here](https://drive.google.com/drive/folders/1MKWF1k6X02K-BaQn4G-L_FjIZGcXPIn_?usp=sharing)). Please cite [this paper](https://www.nature.com/articles/s41467-018-06169-2) if you use this data.
@@ -101,6 +101,13 @@ Code for the Tangent Space Lasso is also colocated in this repo.
 
 ## Synthetic Data Experiments
 
+Code from the synthetic_experiments subfolder can be used recreate the synthetic experiments results from [Consistency of dictionary-based Manifold Learning](). The data, results, and visualizations used in the paper can be found [here](https://drive.google.com/drive/folders/1ll2XQzNuxgKJX6fxUP9h2eE2_RcAwXdZ?usp=sharing). 
+
+Additionally:
+ - the code from the synthetic_experiments subfolder can be used to sample new data from the 3 synthetic manifolds described in the paper.
+ - rerun the experiments on the new sampled data and visualize the new results.
+ - use the sym_manifold package to create new manifolds which can be subsequently sampled.
+ - user friendly classes for running and configuring TSLasso and MLasso as well as container classes for the data and configuartions necessary for the two algorithms.
 
 # Contributing
 
