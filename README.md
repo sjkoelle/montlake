@@ -34,8 +34,9 @@ source activate montlake
 conda install pip
 pip install ipykernel
 python -m ipykernel install --user --name montlake --display-name "Python (montlake)”
-conda install --channel=conda-forge -y nose coverage cython numpy seaborn scipy scikit-learn pyflann pyamg h5py plotly
+conda install --channel=conda-forge -y nose coverage cython numpy scipy scikit-learn pyflann h5py plotly
 pip install git+https://github.com/sjkoelle/montlake/
+pip insall pyamg seaborn
 ```
 
 # Usage
